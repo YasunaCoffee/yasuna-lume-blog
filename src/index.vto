@@ -5,7 +5,8 @@ title: Home
 ---
 
 <header class="page-header page-header--home">
-  <div class="home-hero">
+  <h1 class="sr-only">{{ metas.site }}</h1>
+  <div class="home-hero home-hero--profile">
     {{ if it.site_icon }}
     <img
       src="{{ it.site_icon }}"
@@ -16,10 +17,30 @@ title: Home
       decoding="async"
     />
     {{ /if }}
-    <div class="home-hero-text">
-      <h1 class="page-title">{{ home.welcome }}</h1>
-      <div class="search" id="search"></div>
-    </div>
+    <nav class="home-profile" aria-label="プロフィール・外部リンク">
+      <ul class="home-profile-links">
+        {{ for link of home.profile_links }}
+        <li>
+          <a
+            class="home-profile-icon-link"
+            href="{{ link.href }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="{{ link.label }}"
+          >
+            {{ include "partials/home-sns-icon.vto" { icon: link.icon } }}
+          </a>
+        </li>
+        {{ /for }}
+      </ul>
+      {{ if home.profile_intro_links?.length }}
+      <p class="home-profile-intro">
+        {{ for link of home.profile_intro_links }}
+        <a class="home-profile-intro-link" href="{{ link.href }}">{{ link.label }}</a>
+        {{ /for }}
+      </p>
+      {{ /if }}
+    </nav>
   </div>
 </header>
 

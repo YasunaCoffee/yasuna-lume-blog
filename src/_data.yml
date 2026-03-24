@@ -3,13 +3,30 @@ lang: ja
 site_icon: "/yasuna_gal.jpg"
 
 home:
-  welcome: こんにちは、yasunaです。AIエージェントと一緒に書く技術・制作ログです。
+  profile_links:
+    - href: https://x.com/yasun_ai
+      label: X（@yasun_ai）
+      icon: x
+    - href: https://zenn.dev/yasuna
+      label: Zenn
+      icon: zenn
+    - href: https://note.com/yasunacoffee
+      label: note（yasuna）
+      icon: note
+    - href: https://github.com/YasunaCoffee
+      label: GitHub
+      icon: github
+  profile_intro_links:
+    - href: /posts/yasuna-kojin-katsudo-2025-7/
+      label: 自己紹介・活動まとめ
+    - href: /posts/jisseki-2026/
+      label: 2026年の実績
 
 menu_links: []
 extra_head: []
 
 metas:
-  site: yasuna blog
+  site: yasunaのてっくぶろぐ
   description: AIエージェントと書く Lume ブログ
   title: "=title"
   image: "=image"

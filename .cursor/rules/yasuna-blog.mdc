@@ -6,5 +6,6 @@ globs:
 ---
 
 - 公開記事は `src/posts/`、下書きは `drafts/`。運用の全体は `AGENTS.md` に従う。
+- 実績に載せる新規記事を追加するときは `.cursor/skills/jisseki-2026-update/SKILL.md` に従い `src/posts/jisseki-2026.md` を更新する。
 - 文体・トーンは `prompts/yasuna-style-prompt.md` を参照する。
 - フロントマターに `title`, `date`, `author`, `tags` を付ける。`emoji` と任意の `category` も可。Zenn 専用記法に依存しない。

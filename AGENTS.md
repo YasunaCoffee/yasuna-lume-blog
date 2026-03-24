@@ -6,6 +6,7 @@
 
 | 用途 | パス |
 |------|------|
+| 2026 実績ページの更新手順（スキル） | `.cursor/skills/jisseki-2026-update/SKILL.md` |
 | 文体・トーン | `prompts/yasuna-style-prompt.md` |
 | 公開記事（ビルド対象） | `src/posts/*.md` |
 | 下書き（ビルドしない） | `drafts/*.md` |
@@ -20,6 +21,7 @@
 2. **`prompts/yasuna-style-prompt.md`** のトーンで本文を書く。
 3. まだ公開しない場合は **`drafts/`** に `slug.md` として保存する。公開する場合は **`src/posts/`** に移し、ファイル名は **`kebab-case.md`** を推奨。
 4. 各記事の先頭に **YAML フロントマター** を付ける。
+5. その記事を **2026 年の実績に載せたい**場合は、同じ作業のなかで **`src/posts/jisseki-2026.md`** を更新する（手順は Cursor スキル **`.cursor/skills/jisseki-2026-update/SKILL.md`**）。
 
 ```yaml
 ---

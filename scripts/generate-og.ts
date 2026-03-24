@@ -30,7 +30,7 @@ const ICON_CANDIDATES: [string, string][] = [
   [join(ROOT, "src", "img", "icon.png"), "image/png"],
 ];
 
-const SITE_NAME = "yasuna blog";
+const SITE_NAME = "yasunaのてっくぶろぐ";
 const SITE_URL = Deno.env.get("SITE_URL") ??
   "https://yasunacoffee.github.io/yasuna-lume-blog/";
 
@@ -163,13 +163,13 @@ function ogTree(
                 type: "div",
                 props: {
                   style: {
-                    fontSize: 56,
+                    fontSize: 72,
                     fontWeight: 700,
                     color: "#4f378b",
                     backgroundColor: "#eaddff",
-                    width: 112,
-                    height: 112,
-                    borderRadius: 28,
+                    width: 140,
+                    height: 140,
+                    borderRadius: 32,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -182,13 +182,13 @@ function ogTree(
                 type: "div",
                 props: {
                   style: {
-                    fontSize: 46,
+                    fontSize: 58,
                     fontWeight: 700,
                     color: "#1d1b20",
                     lineHeight: 1.35,
                     letterSpacing: "-0.02em",
                   },
-                  children: truncate(title, 72),
+                  children: truncate(title, 64),
                 },
               },
             ],
@@ -210,10 +210,10 @@ function ogTree(
                   type: "img",
                   props: {
                     src: iconDataUrl,
-                    width: 56,
-                    height: 56,
+                    width: 68,
+                    height: 68,
                     style: {
-                      borderRadius: 14,
+                      borderRadius: 16,
                       border: "1px solid #dbe4ef",
                     },
                   },
@@ -232,7 +232,7 @@ function ogTree(
                       type: "div",
                       props: {
                         style: {
-                          fontSize: 26,
+                          fontSize: 32,
                           fontWeight: 700,
                           color: "#6750a4",
                         },
@@ -242,7 +242,7 @@ function ogTree(
                     {
                       type: "div",
                       props: {
-                        style: { fontSize: 18, color: "#5b6b7a" },
+                        style: { fontSize: 22, color: "#5b6b7a" },
                         children: new URL(SITE_URL).hostname,
                       },
                     },
@@ -257,13 +257,21 @@ function ogTree(
   };
 }
 
+/** サムネ用: 外側のグラデーション枠（padding が枠の太さ） */
+const THUMB_FRAME_GRADIENT =
+  "linear-gradient(135deg, #6750a4 0%, #d0bcff 38%, #b69df8 72%, #4f378b 100%)";
+
 function thumbTree(
   title: string,
   category: string,
   author: string,
   iconDataUrl: string | undefined,
 ): Record<string, unknown> {
-  return {
+  const frameWidth = 20;
+  const outerR = 40;
+  const innerR = outerR - frameWidth;
+
+  const inner: Record<string, unknown> = {
     type: "div",
     props: {
       style: {
@@ -272,10 +280,11 @@ function thumbTree(
         justifyContent: "space-between",
         width: "100%",
         height: "100%",
-        padding: "28px 32px",
+        padding: "26px 30px",
         backgroundColor: "#fef7ff",
         backgroundImage:
           "linear-gradient(160deg, #fef7ff 0%, #f3edf7 55%, #eaddff 100%)",
+        borderRadius: innerR,
         fontFamily: "Noto Sans JP",
       },
       children: [
@@ -293,18 +302,18 @@ function thumbTree(
                 type: "div",
                 props: {
                   style: {
-                    fontSize: 14,
+                    fontSize: 19,
                     fontWeight: 700,
                     color: "#4f378b",
                     backgroundColor: "#eaddff",
-                    padding: "6px 12px",
-                    borderRadius: 8,
+                    padding: "8px 14px",
+                    borderRadius: 10,
                     maxWidth: "100%",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
                   },
-                  children: truncate(category, 18),
+                  children: truncate(category, 16),
                 },
               },
             ],
@@ -317,21 +326,21 @@ function thumbTree(
               flex: 1,
               display: "flex",
               alignItems: "center",
-              paddingTop: 16,
-              paddingBottom: 16,
+              paddingTop: 14,
+              paddingBottom: 14,
             },
             children: [
               {
                 type: "div",
                 props: {
                   style: {
-                    fontSize: 26,
+                    fontSize: 34,
                     fontWeight: 700,
                     color: "#1d1b20",
                     lineHeight: 1.35,
                     letterSpacing: "-0.02em",
                   },
-                  children: truncate(title, 52),
+                  children: truncate(title, 44),
                 },
               },
             ],
@@ -354,10 +363,10 @@ function thumbTree(
                   type: "img",
                   props: {
                     src: iconDataUrl,
-                    width: 48,
-                    height: 48,
+                    width: 58,
+                    height: 58,
                     style: {
-                      borderRadius: 12,
+                      borderRadius: 14,
                       border: "1px solid #cac4d0",
                     },
                   },
@@ -369,7 +378,7 @@ function thumbTree(
                   style: {
                     display: "flex",
                     flexDirection: "column",
-                    gap: 4,
+                    gap: 5,
                     flex: 1,
                   },
                   children: [
@@ -377,7 +386,7 @@ function thumbTree(
                       type: "div",
                       props: {
                         style: {
-                          fontSize: 18,
+                          fontSize: 24,
                           fontWeight: 700,
                           color: "#1d1b20",
                         },
@@ -388,7 +397,7 @@ function thumbTree(
                       type: "div",
                       props: {
                         style: {
-                          fontSize: 15,
+                          fontSize: 20,
                           fontWeight: 700,
                           color: "#6750a4",
                         },
@@ -402,6 +411,22 @@ function thumbTree(
           },
         },
       ],
+    },
+  };
+
+  return {
+    type: "div",
+    props: {
+      style: {
+        display: "flex",
+        width: "100%",
+        height: "100%",
+        padding: `${frameWidth}px`,
+        backgroundImage: THUMB_FRAME_GRADIENT,
+        borderRadius: outerR,
+        boxSizing: "border-box",
+      },
+      children: [inner],
     },
   };
 }
