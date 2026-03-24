@@ -1,0 +1,15 @@
+lang: ja
+
+home:
+  welcome: こんにちは、yasunaです。AIエージェントと一緒に書く技術・制作ログです。
+
+menu_links: []
+extra_head: []
+
+metas:
+  site: yasuna blog
+  description: AIエージェントと書く Lume ブログ
+  title: "=title"
+  image: "=image"
+  twitter: "@yasun_ai"
+  lang: ja
