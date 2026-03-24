@@ -1,0 +1,65 @@
+{{ set absUrl = url |> url(true) }}
+{{ set encUrl = absUrl |> encodeURIComponent }}
+{{ set encTitle = title |> encodeURIComponent }}
+<nav class="post-share" aria-label="この記事を共有">
+  <span class="post-share-label">共有</span>
+  <ul class="post-share-list">
+    <li>
+      <a
+        class="post-share-btn"
+        href="https://twitter.com/intent/tweet?text={{ encTitle }}&url={{ encUrl }}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >X</a>
+    </li>
+    <li>
+      <a
+        class="post-share-btn"
+        href="https://www.facebook.com/sharer/sharer.php?u={{ encUrl }}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Facebook</a>
+    </li>
+    <li>
+      <a
+        class="post-share-btn"
+        href="https://social-plugins.line.me/lineit/share?url={{ encUrl }}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >LINE</a>
+    </li>
+    <li>
+      <a
+        class="post-share-btn"
+        href="https://b.hatena.ne.jp/entry?url={{ encUrl }}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >はてな</a>
+    </li>
+    <li>
+      <button
+        type="button"
+        class="post-share-btn post-share-copy"
+        data-share-url="{{ absUrl }}"
+        aria-label="記事のURLをクリップボードにコピー"
+      >コピー</button>
+    </li>
+  </ul>
+</nav>
+<script>
+  (function () {
+    document.querySelectorAll(".post-share-copy").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var u = btn.getAttribute("data-share-url");
+        if (!u || !navigator.clipboard) return;
+        navigator.clipboard.writeText(u).then(function () {
+          var prev = btn.textContent;
+          btn.textContent = "コピーしました";
+          setTimeout(function () {
+            btn.textContent = prev;
+          }, 2000);
+        });
+      });
+    });
+  })();
+</script>

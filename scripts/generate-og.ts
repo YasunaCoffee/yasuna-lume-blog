@@ -1,6 +1,6 @@
 /**
  * OGP（1200×630）とトップ用サムネイル（960×540）を生成。
- * サムネ: タイトル・カテゴリ（category または先頭タグ）・著者名・アイコン・ブログ名
+ * サムネ: タイトル（最大5行・折り返し）・カテゴリ（最大2行）・先頭1文字（絵文字は使わない）・著者・アイコン・★ブログ名
  * 外枠: OGP とサムネ共通の単色（フラット・#E9A6AF）
  *
  * 実行: deno task og
@@ -82,6 +82,22 @@ function truncate(text: string, max: number): string {
   const t = text.replace(/\s+/g, " ").trim();
   if (t.length <= max) return t;
   return t.slice(0, max - 1) + "…";
+}
+
+/** サムネ固定幅向け：指定行数まで均等に分割（最後の行がはみ出す場合は …） */
+function wrapTextLines(
+  text: string,
+  maxCharsPerLine: number,
+  maxLines: number,
+): string[] {
+  const t = text.replace(/\s+/g, " ").trim();
+  const maxTotal = maxCharsPerLine * maxLines;
+  const body = t.length > maxTotal ? t.slice(0, maxTotal - 1) + "…" : t;
+  const lines: string[] = [];
+  for (let i = 0; i < body.length && lines.length < maxLines; i += maxCharsPerLine) {
+    lines.push(body.slice(i, i + maxCharsPerLine));
+  }
+  return lines.length > 0 ? lines : [""];
 }
 
 function categoryLabel(data: Record<string, unknown>): string {
@@ -285,6 +301,23 @@ function thumbTree(
   const outerR = 8;
   const innerR = Math.max(0, outerR - frameWidth);
 
+  /** 絵文字は Noto で欠損するため、OG と同様にカテゴリ／タイトルの先頭1文字 */
+  const categoryInitial = pickInitial(category, title);
+
+  /** 1行あたり文字数（960×540・余白込みで折り返し優先） */
+  const titleCharsPerLine = 26;
+  const titleMaxLines = 5;
+  const titleLines = wrapTextLines(title, titleCharsPerLine, titleMaxLines);
+  const titleFontSize = titleLines.length >= 5
+    ? 24
+    : titleLines.length >= 4
+    ? 26
+    : titleLines.length >= 3
+    ? 28
+    : 30;
+
+  const categoryLines = wrapTextLines(category, 20, 2);
+
   const inner: Record<string, unknown> = {
     type: "div",
     props: {
@@ -294,10 +327,11 @@ function thumbTree(
         justifyContent: "space-between",
         width: "100%",
         height: "100%",
-        padding: "26px 30px",
+        padding: "20px 24px",
         backgroundColor: "#f8f9fc",
         borderRadius: innerR,
         fontFamily: "Noto Sans JP",
+        boxSizing: "border-box",
       },
       children: [
         {
@@ -308,24 +342,56 @@ function thumbTree(
               flexDirection: "row",
               justifyContent: "flex-start",
               alignItems: "flex-start",
+              gap: 10,
+              flexShrink: 0,
             },
             children: [
               {
                 type: "div",
                 props: {
                   style: {
-                    fontSize: 19,
+                    width: 44,
+                    height: 44,
+                    flexShrink: 0,
+                    fontSize: 22,
                     fontWeight: 700,
                     color: "#1a1c1e",
                     backgroundColor: "#e6e8ec",
-                    padding: "8px 14px",
-                    borderRadius: 4,
-                    maxWidth: "100%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
+                    borderRadius: 6,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    lineHeight: 1,
                   },
-                  children: truncate(category, 16),
+                  children: categoryInitial,
+                },
+              },
+              {
+                type: "div",
+                props: {
+                  style: {
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 4,
+                    flex: 1,
+                    minWidth: 0,
+                  },
+                  children: categoryLines.map((line) => ({
+                    type: "div",
+                    props: {
+                      style: {
+                        fontSize: 17,
+                        fontWeight: 700,
+                        color: "#1a1c1e",
+                        backgroundColor: "#e6e8ec",
+                        padding: "6px 12px",
+                        borderRadius: 4,
+                        lineHeight: 1.35,
+                        wordBreak: "break-all",
+                      },
+                      children: line,
+                    },
+                  })),
                 },
               },
             ],
@@ -338,21 +404,35 @@ function thumbTree(
               flex: 1,
               display: "flex",
               alignItems: "center",
-              paddingTop: 14,
-              paddingBottom: 14,
+              justifyContent: "flex-start",
+              paddingTop: 10,
+              paddingBottom: 10,
+              minHeight: 0,
             },
             children: [
               {
                 type: "div",
                 props: {
                   style: {
-                    fontSize: 34,
-                    fontWeight: 700,
-                    color: "#1d1b20",
-                    lineHeight: 1.35,
-                    letterSpacing: "-0.02em",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 4,
+                    width: "100%",
                   },
-                  children: truncate(title, 44),
+                  children: titleLines.map((line) => ({
+                    type: "div",
+                    props: {
+                      style: {
+                        fontSize: titleFontSize,
+                        fontWeight: 700,
+                        color: "#1d1b20",
+                        lineHeight: 1.32,
+                        letterSpacing: "-0.02em",
+                        wordBreak: "break-all",
+                      },
+                      children: line,
+                    },
+                  })),
                 },
               },
             ],
@@ -365,9 +445,10 @@ function thumbTree(
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
-              gap: 14,
+              gap: 12,
               borderTop: "1px solid #cac4d0",
-              paddingTop: 16,
+              paddingTop: 12,
+              flexShrink: 0,
             },
             children: [
               ...(iconDataUrl
@@ -375,11 +456,12 @@ function thumbTree(
                   type: "img",
                   props: {
                     src: iconDataUrl,
-                    width: 58,
-                    height: 58,
+                    width: 52,
+                    height: 52,
                     style: {
-                      borderRadius: 14,
+                      borderRadius: 12,
                       border: "1px solid #cac4d0",
+                      flexShrink: 0,
                     },
                   },
                 }]
@@ -390,17 +472,20 @@ function thumbTree(
                   style: {
                     display: "flex",
                     flexDirection: "column",
-                    gap: 5,
+                    gap: 4,
                     flex: 1,
+                    minWidth: 0,
                   },
                   children: [
                     {
                       type: "div",
                       props: {
                         style: {
-                          fontSize: 24,
+                          fontSize: 22,
                           fontWeight: 700,
                           color: "#1d1b20",
+                          lineHeight: 1.25,
+                          wordBreak: "break-all",
                         },
                         children: author,
                       },
@@ -409,11 +494,13 @@ function thumbTree(
                       type: "div",
                       props: {
                         style: {
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: 700,
-                          color: "#1a1c1e",
+                          color: "#4a3d44",
+                          lineHeight: 1.25,
+                          wordBreak: "break-all",
                         },
-                        children: SITE_NAME,
+                        children: `★ ${SITE_NAME}`,
                       },
                     },
                   ],

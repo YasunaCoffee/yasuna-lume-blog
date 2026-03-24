@@ -10,6 +10,8 @@ bodyClass: body-post
     <h1 class="post-title">{{ title }}</h1>
 
     {{ include "templates/post-details.vto" }}
+
+    {{ include "partials/share-buttons.vto" }}
   </header>
 
   {{ if toc.length }}
@@ -36,6 +38,9 @@ bodyClass: body-post
   {{ /if }}
 
   <div class="post-body body">
+    <p class="post-ai-disclosure" role="note">
+      この記事はAIエージェントと一緒に執筆しています
+    </p>
     {{ content }}
   </div>
 

@@ -147,10 +147,84 @@ article.post {
   color: var(--md-sys-color-on-surface);
 }
 
+/* 記事ヘッダー直下：SNS 共有（フラット・本文リンクのピンク下線は付けない） */
+.post-share {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 0.75rem;
+}
+
+.post-share-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface-variant);
+  letter-spacing: 0.04em;
+}
+
+.post-share-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.post-share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2rem;
+  padding: 0.25rem 0.65rem;
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--md-sys-color-on-surface);
+  text-decoration: none !important;
+  background: var(--md-sys-color-surface-container);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 4px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+a.post-share-btn:hover,
+button.post-share-btn:hover {
+  background: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface) 6%,
+    var(--md-sys-color-surface-container)
+  );
+  border-color: color-mix(
+    in srgb,
+    var(--link-underline-pink) 45%,
+    var(--md-sys-color-outline-variant)
+  );
+}
+
 .post-body.body {
   font-size: 1.0625rem;
   line-height: 1.9;
   letter-spacing: 0.03em;
+}
+
+/* 記事先頭：AI 共同執筆の注記（本文より薄く） */
+.post-body.body p.post-ai-disclosure {
+  margin: 0 0 1.35em;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  letter-spacing: 0.04em;
+  color: color-mix(
+    in srgb,
+    var(--md-sys-color-on-surface-variant) 72%,
+    transparent
+  );
 }
 
 .post-body.body p {
@@ -227,8 +301,8 @@ html[data-theme="dark"] a.badge:hover {
   color: var(--md-sys-color-on-surface);
 }
 
-/* 記事内・前後記事ナビ：文字は本文色、下線のみピンク */
-article.post a:not(.badge),
+/* 共有ボタンは上記 .post-share-btn で下線なし（本文リンクルールの対象外） */
+article.post a:not(.badge):not(.post-share-btn),
 .page-pagination a {
   color: var(--md-sys-color-on-surface);
   text-decoration: underline;
@@ -237,7 +311,7 @@ article.post a:not(.badge),
   text-decoration-thickness: 1px;
 }
 
-article.post a:not(.badge):hover,
+article.post a:not(.badge):not(.post-share-btn):hover,
 .page-pagination a:hover {
   color: var(--md-sys-color-on-surface);
   text-decoration-color: color-mix(

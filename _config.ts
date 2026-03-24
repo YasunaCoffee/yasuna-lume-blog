@@ -61,4 +61,9 @@ site.filter("thumbUrl", (basename: unknown) => {
   return new URL(`thumbnails/${String(basename)}.png`, siteBaseUrl()).pathname;
 });
 
+/** SNS 共有 URL 用 */
+site.filter("encodeURIComponent", (s: unknown) =>
+  encodeURIComponent(String(s ?? ""))
+);
+
 export default site;
