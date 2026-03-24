@@ -21,23 +21,9 @@ Node.js 前提のツールも候補でしたが、依存の扱いと設定ファ
 
 ## レポジトリの骨格
 
-```mermaid
-graph TD
-    subgraph src["src/"]
-        posts["posts/*.md\n（記事本文・フロントマター）"]
-        includes["_includes/\n（レイアウト上書き）"]
-        css["zenn.css\n（スタイル）"]
-    end
-    og["scripts/generate-og.ts\n（OG・サムネ PNG 生成）"]
-    config["_config.ts\nbase_path・postOgImage・thumbUrl フィルタ"]
-    site["_site/\n（ビルド出力 → GitHub Pages）"]
+記事本体は `src/posts/` の Markdown です。フロントマターでタイトル・日付・タグを書き、ビルドで HTML が `_site/` に出力されます。テーマ側のレイアウトを `src/_includes/` で上書きし、全体のスタイルは `src/zenn.css` で Material Design 3 の色味に少し寄せています。トップでは本文を並べず、記事カードから各記事へ飛ぶ形にしてあり、カード画像は後述のスクリプトで PNG を生成しています。
 
-    posts --> site
-    includes --> site
-    css --> site
-    og -->|"src/og/ へ出力"| site
-    config -->|"URL 補正・パス組み立て"| site
-```
+設定では **`base_path` プラグイン**を有効にしています。GitHub Pages のプロジェクトサイトは URL が `https://ユーザー名.github.io/リポジトリ名/` のように **パスにリポジトリ名が入る**ため、先頭スラッシュだけのリンクだと意図せずルート直下を指してしまいます。Lume の `base_path` で HTML 上の内部リンクを補正し、OG 画像やサムネのパスは `_config.ts` の **`postOgImage`** と **`thumbUrl`** フィルタで、サイトの `location`（環境変数 `SITE_URL`）から組み立てるようにしました。
 
 ## OGP とサムネイル
 
