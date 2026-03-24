@@ -7,4 +7,4 @@ globs:
 
 - 公開記事は `src/posts/`、下書きは `drafts/`。運用の全体は `AGENTS.md` に従う。
 - 文体・トーンは `prompts/yasuna-style-prompt.md` を参照する。
-- フロントマターに `title`, `date`, `author`, `tags` を付ける。Zenn 専用記法に依存しない。
+- フロントマターに `title`, `date`, `author`, `tags` を付ける。`emoji` と任意の `category` も可。Zenn 専用記法に依存しない。

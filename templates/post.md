@@ -2,6 +2,8 @@
 title: "記事タイトル"
 date: "YYYY-MM-DD"
 author: yasuna
+emoji: "📝"
+category: "メモ"
 tags:
   - メモ
 draft: false

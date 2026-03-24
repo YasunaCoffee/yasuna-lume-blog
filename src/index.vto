@@ -1,0 +1,45 @@
+---
+layout: layouts/base.vto
+bodyClass: body-home
+title: Home
+---
+
+<header class="page-header page-header--home">
+  <div class="home-hero">
+    {{ if it.site_icon }}
+    <img
+      src="{{ it.site_icon }}"
+      alt=""
+      class="home-avatar"
+      width="80"
+      height="80"
+      decoding="async"
+    />
+    {{ /if }}
+    <div class="home-hero-text">
+      <h1 class="page-title">{{ home.welcome }}</h1>
+      <div class="search" id="search"></div>
+    </div>
+  </div>
+</header>
+
+<section class="post-grid" aria-label="記事一覧">
+  {{ for post of search.pages("type=post", "date=desc") }}
+  <article class="post-card">
+    <a href="{{ post.url }}" class="post-card-link">
+      <img
+        class="post-card-thumb"
+        src="{{ post.basename |> thumbUrl }}"
+        alt=""
+        width="960"
+        height="540"
+        loading="lazy"
+        decoding="async"
+      />
+      <span class="sr-only">{{ post.title }}</span>
+    </a>
+  </article>
+  {{ /for }}
+</section>
+
+<p class="home-archive-link"><a href="/archive/">アーカイブ（タグ・一覧）</a></p>

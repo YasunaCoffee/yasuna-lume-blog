@@ -1,5 +1,7 @@
 lang: ja
 
+site_icon: "/yasuna_gal.jpg"
+
 home:
   welcome: こんにちは、yasunaです。AIエージェントと一緒に書く技術・制作ログです。
 

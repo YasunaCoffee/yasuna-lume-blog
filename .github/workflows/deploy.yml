@@ -22,6 +22,9 @@ jobs:
         with:
           deno-version: v2.x
       - name: Build
+        env:
+          # OGP・canonical の絶対 URL 用（未設定だと localhost のままになりシェア時に画像が出ない）
+          SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
         run: deno task build
       - uses: actions/upload-pages-artifact@v3
         with:

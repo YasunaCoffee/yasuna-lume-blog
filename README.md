@@ -1,6 +1,6 @@
 # yasuna blog（Lume）
 
-[Deno](https://deno.land/) の [Lume](https://lume.land/) と [Simple Blog](https://lume.land/theme/simple-blog/) で作る静的ブログです。記事は **AI エージェントと yasuna 文体**（`prompts/yasuna-style-prompt.md`）を前提に執筆します。
+[Deno](https://deno.land/) の [Lume](https://lume.land/) と [Simple Blog](https://lume.land/theme/simple-blog/) で作る静的ブログです。見た目は [Material Design 3](https://m3.material.io/styles/color) のカラー・サーフェス階層を `src/zenn.css` で少しだけ寄せています（ビルド後は `/zenn.css` として出力され、`layouts/base.vto` から `/styles.css` の次に読み込みます）。記事は **AI エージェントと yasuna 文体**（`prompts/yasuna-style-prompt.md`）を前提に執筆します。
 
 ## 必要なもの
 
@@ -9,9 +9,13 @@
 ## コマンド
 
 ```bash
-deno task serve   # http://localhost:3000 でプレビュー
-deno task build   # _site/ に出力
+deno task serve   # プレビューのみ（サムネ未更新のときは og 未実行の可能性あり）
+deno task dev     # サムネ・OGP 生成してからプレビュー（記事追加後におすすめ）
+deno task build   # og 生成 → _site/ に出力（本番用）
+deno task og      # src/og/ と src/thumbnails/ の PNG だけ再生成
 ```
+
+トップページは **本文を表示せず**、各記事の **自動生成サムネ**（タイトル・カテゴリ・著者・アイコン・ブログ名）が並びます。
 
 初回は依存の取得で時間がかかります。
 
