@@ -1,7 +1,6 @@
 /*
- * Material Design 3 風のカラー・サーフェス（ベースライン調色）
- * 参考: https://m3.material.io/styles/color
- * Lume / Simple Blog の --color-* に橋渡しする。
+ * フラット UI：影・ぼかし・浮き上がり変形は使わず、境界線と単色で区切る。
+ * カラーは M3 系トークンをベースに Lume / Simple Blog の --color-* へ橋渡し。
  */
 
 /* Lume DS（@lumeland/ds）の本文・UI フォント。
@@ -20,22 +19,22 @@ html[data-theme="dark"] {
   --font-family-display: var(--font-family-ui);
 }
 
-/* --- M3 トークン（ライト）--- */
+/* --- M3 トークン（ライト）— プライマリ＝本文・H1 と同じオンフサーフェス（青系は使わない）--- */
 html[data-theme="light"] {
-  --md-sys-color-primary: #6750a4;
+  --md-sys-color-primary: #1a1c1e;
   --md-sys-color-on-primary: #ffffff;
-  --md-sys-color-primary-container: #eaddff;
-  --md-sys-color-on-primary-container: #21005d;
-  --md-sys-color-surface: #fef7ff;
-  --md-sys-color-on-surface: #1d1b20;
-  --md-sys-color-on-surface-variant: #49454f;
-  --md-sys-color-outline: #79747e;
-  --md-sys-color-outline-variant: #cac4d0;
-  --md-sys-color-surface-container-low: #f7f2fa;
-  --md-sys-color-surface-container: #f3edf7;
-  --md-sys-color-surface-container-high: #ece6f0;
-  --md-sys-color-inverse-surface: #322f35;
-  --md-sys-color-inverse-on-surface: #f5eff7;
+  --md-sys-color-primary-container: #e6e8ec;
+  --md-sys-color-on-primary-container: #1a1c1e;
+  --md-sys-color-surface: #f8f9fc;
+  --md-sys-color-on-surface: #1a1c1e;
+  --md-sys-color-on-surface-variant: #43474e;
+  --md-sys-color-outline: #73777f;
+  --md-sys-color-outline-variant: #c3c6cf;
+  --md-sys-color-surface-container-low: #f1f3f9;
+  --md-sys-color-surface-container: #eceef4;
+  --md-sys-color-surface-container-high: #e6e8ec;
+  --md-sys-color-inverse-surface: #2f3033;
+  --md-sys-color-inverse-on-surface: #f1f0f4;
 
   /* Lume DS へ */
   --color-base: var(--md-sys-color-on-surface);
@@ -47,24 +46,30 @@ html[data-theme="light"] {
   --zenn-accent: var(--md-sys-color-primary);
   --zenn-accent-dim: var(--md-sys-color-primary-container);
   --zenn-surface: var(--md-sys-color-surface-container-low);
+
+  --link-underline-pink: #e9a6af;
+  /* タグバッジ（ピンク背景） */
+  --tag-badge-bg: #fce8eb;
+  --tag-badge-fg: #3a2429;
+  --tag-badge-border: #e9a6af;
 }
 
-/* --- M3 トークン（ダーク）--- */
+/* --- M3 トークン（ダーク）— プライマリ＝オンフサーフェスに合わせる --- */
 html[data-theme="dark"] {
-  --md-sys-color-primary: #d0bcff;
-  --md-sys-color-on-primary: #381e72;
-  --md-sys-color-primary-container: #4f378b;
-  --md-sys-color-on-primary-container: #eaddff;
-  --md-sys-color-surface: #1d1b20;
-  --md-sys-color-on-surface: #e6e0e9;
-  --md-sys-color-on-surface-variant: #cac4d0;
-  --md-sys-color-outline: #938f99;
-  --md-sys-color-outline-variant: #49454f;
-  --md-sys-color-surface-container-low: #1d1b20;
-  --md-sys-color-surface-container: #211f26;
-  --md-sys-color-surface-container-high: #2b2930;
-  --md-sys-color-inverse-surface: #e6e0e9;
-  --md-sys-color-inverse-on-surface: #322f35;
+  --md-sys-color-primary: #e2e2e6;
+  --md-sys-color-on-primary: #121316;
+  --md-sys-color-primary-container: #3a3b3c;
+  --md-sys-color-on-primary-container: #e2e2e6;
+  --md-sys-color-surface: #121316;
+  --md-sys-color-on-surface: #e2e2e6;
+  --md-sys-color-on-surface-variant: #c4c6cf;
+  --md-sys-color-outline: #8e9099;
+  --md-sys-color-outline-variant: #44474e;
+  --md-sys-color-surface-container-low: #121316;
+  --md-sys-color-surface-container: #1b1c1f;
+  --md-sys-color-surface-container-high: #262628;
+  --md-sys-color-inverse-surface: #e2e2e6;
+  --md-sys-color-inverse-on-surface: #2f3033;
 
   --color-base: var(--md-sys-color-on-surface);
   --color-dim: var(--md-sys-color-on-surface-variant);
@@ -74,6 +79,11 @@ html[data-theme="dark"] {
   --zenn-accent: var(--md-sys-color-primary);
   --zenn-accent-dim: var(--md-sys-color-primary-container);
   --zenn-surface: var(--md-sys-color-surface-container);
+
+  --link-underline-pink: #f0b6be;
+  --tag-badge-bg: #4a3038;
+  --tag-badge-fg: #fce8eb;
+  --tag-badge-border: #8f5c6a;
 }
 
 /* ページ背景を M3 の Surface に（画面全体まで塗る） */
@@ -105,22 +115,18 @@ main.body-home {
   background-color: var(--md-sys-color-surface);
 }
 
-/* ナビ：サーフェスコンテナ上のバー風 */
+/* ナビ：フラット（単色＋下線のみ） */
 .navbar {
-  background: color-mix(in srgb, var(--md-sys-color-surface-container) 92%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--md-sys-color-outline) 35%, transparent);
-  backdrop-filter: blur(10px);
+  background: var(--md-sys-color-surface);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
 }
 
-/* 記事タイトル周り：絵文字アクセント（サイズは従来どおり） */
+/* 記事タイトル周り（詳細ページ：テーマの h1 既定より一段小さめ） */
 .post-header .post-emoji {
   margin: 0 0 0.35em;
-  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
   line-height: 1;
   letter-spacing: 0.02em;
-  filter: drop-shadow(
-    0 1px 0 color-mix(in srgb, var(--md-sys-color-outline) 45%, transparent)
-  );
 }
 
 .post-title {
@@ -135,8 +141,10 @@ article.post {
 }
 
 .post-header .post-title {
+  font-size: clamp(1.35rem, 3.2vw, 1.75rem);
   line-height: 1.35;
   letter-spacing: 0.02em;
+  color: var(--md-sys-color-on-surface);
 }
 
 .post-body.body {
@@ -182,17 +190,13 @@ article.post {
   border-top: 1px solid var(--md-sys-color-outline-variant);
 }
 
-/* 目次（同じ記事幅の中で少し静かに） */
+/* 目次 */
 .post .toc {
   margin-bottom: 1.5rem;
   padding: 1rem 1.15rem;
-  border-radius: 12px;
-  background: color-mix(
-    in srgb,
-    var(--md-sys-color-surface-container) 88%,
-    transparent
-  );
-  border: 1px solid color-mix(in srgb, var(--md-sys-color-outline) 22%, transparent);
+  border-radius: 4px;
+  background: var(--md-sys-color-surface-container);
+  border: 1px solid var(--md-sys-color-outline-variant);
 }
 
 .post .toc h2 {
@@ -202,18 +206,20 @@ article.post {
   color: var(--md-sys-color-on-surface-variant);
 }
 
-/* タグバッジ：Primary container 系 */
+/* タグバッジ（ピンク背景・リンクは従来どおり下線なし） */
 .badge {
-  border-radius: 8px;
-  border-color: color-mix(in srgb, var(--md-sys-color-primary) 28%, var(--md-sys-color-outline-variant));
-  background: color-mix(in srgb, var(--md-sys-color-primary-container) 55%, transparent);
-  color: var(--md-sys-color-on-primary-container);
+  border-radius: 4px;
+  border: 1px solid var(--tag-badge-border);
+  background: var(--tag-badge-bg);
+  color: var(--tag-badge-fg);
 }
 
-html[data-theme="dark"] .badge {
-  color: var(--md-sys-color-on-primary-container);
-  border-color: color-mix(in srgb, var(--md-sys-color-primary) 35%, var(--md-sys-color-outline-variant));
-  background: color-mix(in srgb, var(--md-sys-color-primary-container) 35%, transparent);
+a.badge:hover {
+  filter: brightness(0.97);
+}
+
+html[data-theme="dark"] a.badge:hover {
+  filter: brightness(1.08);
 }
 
 /* 記事本文の見出しはレベルに関わらず同じ色（テーマの段階別カラーを上書き） */
@@ -221,15 +227,25 @@ html[data-theme="dark"] .badge {
   color: var(--md-sys-color-on-surface);
 }
 
-/* 本文リンクを Primary に寄せる */
-.body a:not(.badge) {
-  color: var(--md-sys-color-primary);
+/* 記事内・前後記事ナビ：文字は本文色、下線のみピンク */
+article.post a:not(.badge),
+.page-pagination a {
+  color: var(--md-sys-color-on-surface);
+  text-decoration: underline;
+  text-decoration-color: var(--link-underline-pink);
   text-underline-offset: 0.15em;
+  text-decoration-thickness: 1px;
 }
 
-.body a:not(.badge):hover {
-  color: var(--md-sys-color-on-primary-container);
-  background: color-mix(in srgb, var(--md-sys-color-primary-container) 40%, transparent);
+article.post a:not(.badge):hover,
+.page-pagination a:hover {
+  color: var(--md-sys-color-on-surface);
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--link-underline-pink) 75%,
+    var(--md-sys-color-on-surface)
+  );
+  background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent);
   border-radius: 4px;
 }
 
@@ -243,16 +259,18 @@ html[data-theme="dark"] .badge {
 .navbar-home .site-logo {
   width: 28px;
   height: 28px;
-  border-radius: 8px;
+  border-radius: 4px;
   object-fit: cover;
-  box-shadow: 0 0 0 1px var(--md-sys-color-outline-variant);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  box-shadow: none;
 }
 
-/* テーマ切替ボタンを M3 の Tonal っぽく */
+/* テーマ切替 */
 .navbar .button {
-  border-radius: 20px;
-  border: 1px solid color-mix(in srgb, var(--md-sys-color-outline) 55%, transparent);
+  border-radius: 4px;
+  border: 1px solid var(--md-sys-color-outline-variant);
   background: var(--md-sys-color-surface-container-high);
+  box-shadow: none;
 }
 
 /* トップ：アイコン＋プロフィールリンクのみ */
@@ -267,10 +285,28 @@ html[data-theme="dark"] .badge {
 .page-header--home .home-avatar {
   width: 80px;
   height: 80px;
-  border-radius: 20px;
+  border-radius: 4px;
   object-fit: cover;
   flex-shrink: 0;
-  box-shadow: 0 0 0 1px var(--md-sys-color-outline-variant);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  box-shadow: none;
+}
+
+.page-header--home .home-profile-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  width: 100%;
+}
+
+.page-header--home .home-profile-tagline {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--md-sys-color-on-surface);
+  letter-spacing: 0.02em;
 }
 
 .page-header--home .home-profile-links {
@@ -290,28 +326,19 @@ html[data-theme="dark"] .badge {
   justify-content: center;
   width: 44px;
   height: 44px;
-  border-radius: 12px;
+  border-radius: 4px;
   color: var(--md-sys-color-on-surface);
-  background: color-mix(
-    in srgb,
-    var(--md-sys-color-surface-container-high) 92%,
-    transparent
-  );
-  border: 1px solid color-mix(in srgb, var(--md-sys-color-outline) 28%, transparent);
+  background: var(--md-sys-color-surface-container-high);
+  border: 1px solid var(--md-sys-color-outline-variant);
   text-decoration: none;
-  transition:
-    background 0.15s ease,
-    color 0.15s ease,
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  box-shadow: none;
 }
 
 .page-header--home .home-profile-icon-link:hover {
-  background: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
-  transform: translateY(-2px);
-  box-shadow: 0 2px 8px
-    color-mix(in srgb, var(--md-sys-color-primary) 18%, transparent);
+  background: var(--md-sys-color-surface-container);
+  color: var(--md-sys-color-on-surface);
+  border-color: var(--md-sys-color-outline);
 }
 
 .page-header--home .home-sns-svg {
@@ -333,19 +360,22 @@ html[data-theme="dark"] .badge {
 }
 
 .page-header--home .home-profile-intro-link {
-  color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-surface);
   text-decoration: underline;
-  text-decoration-color: color-mix(
-    in srgb,
-    var(--md-sys-color-primary) 35%,
-    transparent
-  );
+  text-decoration-color: var(--link-underline-pink);
   text-underline-offset: 0.15em;
+  text-decoration-thickness: 1px;
 }
 
 .page-header--home .home-profile-intro-link:hover {
-  color: var(--md-sys-color-on-primary-container);
-  text-decoration-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-surface);
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--link-underline-pink) 75%,
+    var(--md-sys-color-on-surface)
+  );
+  background: color-mix(in srgb, var(--md-sys-color-on-surface) 6%, transparent);
+  border-radius: 4px;
 }
 
 .page-header--home .home-profile-intro-link:not(:first-child)::before {
@@ -370,15 +400,17 @@ html[data-theme="dark"] .badge {
 .post-card-link {
   display: block;
   text-decoration: none;
-  border-radius: 16px;
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 1px 3px color-mix(in srgb, var(--md-sys-color-shadow, #000) 12%, transparent);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background: var(--md-sys-color-surface-container);
+  box-shadow: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
 }
 
 .post-card-link:hover {
-  box-shadow: 0 4px 12px color-mix(in srgb, var(--md-sys-color-primary) 22%, transparent);
-  transform: translateY(-2px);
+  border-color: var(--md-sys-color-outline);
+  background: var(--md-sys-color-surface-container-high);
 }
 
 .post-card-thumb {
@@ -395,8 +427,143 @@ html[data-theme="dark"] .badge {
 }
 
 .home-archive-link a {
-  color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-surface);
   font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--link-underline-pink);
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: 1px;
+}
+
+.home-archive-link a:hover {
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--link-underline-pink) 75%,
+    var(--md-sys-color-on-surface)
+  );
+}
+
+/* ---------- アーカイブ・タグ一覧（Simple Blog の body-tag）---------- */
+main.body-tag {
+  max-width: var(--prose-max-width);
+  margin-inline: auto;
+  padding: 1rem clamp(1rem, 4vw, 1.75rem) 2.5rem;
+  box-sizing: border-box;
+}
+
+main.body-tag .page-header {
+  margin-bottom: 1.25rem;
+}
+
+main.body-tag .page-header .page-title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.35rem, 3.2vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  color: var(--md-sys-color-on-surface);
+}
+
+main.body-tag .page-header > p {
+  margin: 0 0 1rem;
+  font-size: 0.9375rem;
+  color: var(--md-sys-color-on-surface-variant);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+main.body-tag .page-header .search {
+  margin-top: 0.75rem;
+}
+
+main.body-tag .page-navigation {
+  margin: 1.5rem 0 2rem;
+  padding: 1rem 1.15rem;
+  border-radius: 4px;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background: var(--md-sys-color-surface-container);
+}
+
+main.body-tag .page-navigation > h2 {
+  margin: 0 0 0.65rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+main.body-tag .page-navigation-tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+main.body-tag ul.postList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+main.body-tag .postList > .post {
+  margin: 0;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+
+main.body-tag .postList > .post:first-child {
+  padding-top: 0;
+}
+
+main.body-tag .postList > .post:last-child {
+  border-bottom: none;
+}
+
+main.body-tag .postList .post-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+main.body-tag .post-details {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+main.body-tag .post-details p {
+  margin: 0.2rem 0 0;
+}
+
+main.body-tag .post-tags {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+/* バッジ以外＝ピンク下線（RSS・記事タイトル・フッタリンク等） */
+main.body-tag a:not(.badge) {
+  color: var(--md-sys-color-on-surface);
+  text-decoration: underline;
+  text-decoration-color: var(--link-underline-pink);
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: 1px;
+}
+
+main.body-tag a:not(.badge):hover {
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--link-underline-pink) 75%,
+    var(--md-sys-color-on-surface)
+  );
+  background: color-mix(in srgb, var(--md-sys-color-on-surface) 6%, transparent);
+  border-radius: 4px;
 }
 
 .sr-only {

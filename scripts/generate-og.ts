@@ -1,6 +1,7 @@
 /**
  * OGP（1200×630）とトップ用サムネイル（960×540）を生成。
  * サムネ: タイトル・カテゴリ（category または先頭タグ）・著者名・アイコン・ブログ名
+ * 外枠: OGP とサムネ共通の単色（フラット・#E9A6AF）
  *
  * 実行: deno task og
  */
@@ -38,6 +39,10 @@ const OG_WIDTH = 1200;
 const OG_HEIGHT = 630;
 const THUMB_WIDTH = 960;
 const THUMB_HEIGHT = 540;
+
+/** OGP（1200×630）とサムネ共通の外枠色（フラット・単色） */
+const OGP_FRAME_COLOR = "#E9A6AF";
+const OG_FRAME_WIDTH_PX = 20;
 
 async function loadFonts(): Promise<ArrayBuffer[]> {
   const urls = [
@@ -133,7 +138,7 @@ function ogTree(
   iconDataUrl: string | undefined,
 ): Record<string, unknown> {
   const initial = pickInitial(category, title);
-  return {
+  const inner: Record<string, unknown> = {
     type: "div",
     props: {
       style: {
@@ -143,10 +148,9 @@ function ogTree(
         width: "100%",
         height: "100%",
         padding: "56px 64px",
-        backgroundColor: "#fef7ff",
-        backgroundImage:
-          "linear-gradient(135deg, #fef7ff 0%, #f3edf7 50%, #eaddff 100%)",
+        backgroundColor: "#f8f9fc",
         fontFamily: "Noto Sans JP",
+        borderRadius: 4,
       },
       children: [
         {
@@ -165,11 +169,11 @@ function ogTree(
                   style: {
                     fontSize: 72,
                     fontWeight: 700,
-                    color: "#4f378b",
-                    backgroundColor: "#eaddff",
+                    color: "#1a1c1e",
+                    backgroundColor: "#e6e8ec",
                     width: 140,
                     height: 140,
-                    borderRadius: 32,
+                    borderRadius: 8,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -213,8 +217,8 @@ function ogTree(
                     width: 68,
                     height: 68,
                     style: {
-                      borderRadius: 16,
-                      border: "1px solid #dbe4ef",
+                      borderRadius: 4,
+                      border: "1px solid #c3c6cf",
                     },
                   },
                 }]
@@ -234,7 +238,7 @@ function ogTree(
                         style: {
                           fontSize: 32,
                           fontWeight: 700,
-                          color: "#6750a4",
+                          color: "#1a1c1e",
                         },
                         children: SITE_NAME,
                       },
@@ -255,11 +259,21 @@ function ogTree(
       ],
     },
   };
+  return {
+    type: "div",
+    props: {
+      style: {
+        display: "flex",
+        width: "100%",
+        height: "100%",
+        padding: `${OG_FRAME_WIDTH_PX}px`,
+        backgroundColor: OGP_FRAME_COLOR,
+        boxSizing: "border-box",
+      },
+      children: [inner],
+    },
+  };
 }
-
-/** サムネ用: 外側のグラデーション枠（padding が枠の太さ） */
-const THUMB_FRAME_GRADIENT =
-  "linear-gradient(135deg, #6750a4 0%, #d0bcff 38%, #b69df8 72%, #4f378b 100%)";
 
 function thumbTree(
   title: string,
@@ -267,9 +281,9 @@ function thumbTree(
   author: string,
   iconDataUrl: string | undefined,
 ): Record<string, unknown> {
-  const frameWidth = 20;
-  const outerR = 40;
-  const innerR = outerR - frameWidth;
+  const frameWidth = 12;
+  const outerR = 8;
+  const innerR = Math.max(0, outerR - frameWidth);
 
   const inner: Record<string, unknown> = {
     type: "div",
@@ -281,9 +295,7 @@ function thumbTree(
         width: "100%",
         height: "100%",
         padding: "26px 30px",
-        backgroundColor: "#fef7ff",
-        backgroundImage:
-          "linear-gradient(160deg, #fef7ff 0%, #f3edf7 55%, #eaddff 100%)",
+        backgroundColor: "#f8f9fc",
         borderRadius: innerR,
         fontFamily: "Noto Sans JP",
       },
@@ -304,10 +316,10 @@ function thumbTree(
                   style: {
                     fontSize: 19,
                     fontWeight: 700,
-                    color: "#4f378b",
-                    backgroundColor: "#eaddff",
+                    color: "#1a1c1e",
+                    backgroundColor: "#e6e8ec",
                     padding: "8px 14px",
-                    borderRadius: 10,
+                    borderRadius: 4,
                     maxWidth: "100%",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
@@ -399,7 +411,7 @@ function thumbTree(
                         style: {
                           fontSize: 20,
                           fontWeight: 700,
-                          color: "#6750a4",
+                          color: "#1a1c1e",
                         },
                         children: SITE_NAME,
                       },
@@ -422,7 +434,7 @@ function thumbTree(
         width: "100%",
         height: "100%",
         padding: `${frameWidth}px`,
-        backgroundImage: THUMB_FRAME_GRADIENT,
+        backgroundColor: OGP_FRAME_COLOR,
         borderRadius: outerR,
         boxSizing: "border-box",
       },

@@ -3,6 +3,7 @@ lang: ja
 site_icon: "/yasuna_gal.jpg"
 
 home:
+  tagline: "yasuna / AIギャル個人開発者"
   profile_links:
     - href: https://x.com/yasun_ai
       label: X（@yasun_ai）

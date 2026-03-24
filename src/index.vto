@@ -18,21 +18,26 @@ title: Home
     />
     {{ /if }}
     <nav class="home-profile" aria-label="プロフィール・外部リンク">
-      <ul class="home-profile-links">
-        {{ for link of home.profile_links }}
-        <li>
-          <a
-            class="home-profile-icon-link"
-            href="{{ link.href }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="{{ link.label }}"
-          >
-            {{ include "partials/home-sns-icon.vto" { icon: link.icon } }}
-          </a>
-        </li>
-        {{ /for }}
-      </ul>
+      <div class="home-profile-row">
+        {{ if home.tagline }}
+        <p class="home-profile-tagline">{{ home.tagline }}</p>
+        {{ /if }}
+        <ul class="home-profile-links">
+          {{ for link of home.profile_links }}
+          <li>
+            <a
+              class="home-profile-icon-link"
+              href="{{ link.href }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="{{ link.label }}"
+            >
+              {{ include "partials/home-sns-icon.vto" { icon: link.icon } }}
+            </a>
+          </li>
+          {{ /for }}
+        </ul>
+      </div>
       {{ if home.profile_intro_links?.length }}
       <p class="home-profile-intro">
         {{ for link of home.profile_intro_links }}
