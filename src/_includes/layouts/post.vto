@@ -44,6 +44,8 @@ bodyClass: body-post
     {{ content }}
   </div>
 
+  {{ include "partials/share-buttons.vto" }}
+
   {{ if it.footnotes.length }}
   <aside role="note" class="footnotes">
     <dl>
