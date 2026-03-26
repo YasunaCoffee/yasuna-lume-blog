@@ -26,7 +26,7 @@ draft: false
 
 ![X @yasun_ai のポスト（スクショ）](/img/raspberrypi5-x-post.png)
 
-**この記事の本文は、** 上の手順に辿り着くまでの **ばたばた試行錯誤の記録**です。手順書としてはリンク先を優先してほしいです。途中では [npaka さんの note](https://note.com/npaka/n/n254a702ca95e) を見ながらやっていましたが **SSH が5回以上つながらず**、さらに **Raspberry Pi Connect のトークン取得もどこにも書いてなくて詰まった**、という忘却録です。
+**この記事の本文は、** 上の手順に辿り着くまでの **ばたばた試行錯誤の記録**です。手順書としてはリンク先を優先してほしいです。**SSH が5回以上つながらず**、さらに **Raspberry Pi Connect のトークン取得もどこにも書いてなくて詰まった**、という忘却録です。
 
 ---
 
@@ -128,5 +128,4 @@ rpi-connect signin --auth-key=ここにコピーしたキー
 ## 参考
 
 - クラスメソッド DevelopersIO「Raspberry Piの初期設定をしてPCからSSH接続するまでの手順」（**SSH の手順はまずここ**）: https://dev.classmethod.jp/articles/raspberry-pi-pc-ssh/
-- npaka「Raspberry Pi 5 のセットアップ」: https://note.com/npaka/n/n254a702ca95e
 - Raspberry Pi Connect 公式ドキュメント: https://www.raspberrypi.com/documentation/services/connect.html
