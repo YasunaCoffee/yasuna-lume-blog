@@ -1,5 +1,5 @@
 ---
-title: "書いた信念がキャラクターを守ってくれない：BeliefShift論文メモ"
+title: "AIキャラクターはなぜ反論できないのか：BeliefShift論文メモ"
 date: "2026-03-27"
 author: yasuna
 emoji: "💭"
