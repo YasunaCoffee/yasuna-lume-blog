@@ -37,6 +37,23 @@ site.use(blog());
 /** GitHub Pages のプロジェクトサイト（/REPO/）で /thumbnails 等の絶対パスを直す */
 site.use(basePath());
 
+/** 記事の生 Markdown をページデータに保存（MDコピーボタン用） */
+site.preprocess([".md"], (pages) => {
+  for (const page of pages) {
+    if (typeof page.content === "string") {
+      page.data.rawMarkdown = page.content;
+    }
+  }
+});
+
+/** テンプレート内で <script> に安全に埋め込むための JSON シリアライズ */
+site.filter("jsString", (s: unknown) =>
+  JSON.stringify(String(s ?? ""))
+    .replace(/</g, "\\u003c")
+    .replace(/>/g, "\\u003e")
+    .replace(/\//g, "\\u002f")
+);
+
 /** 記事の OGP 画像パス（generate-og.ts が出力する /og/{slug}.png） */
 site.process([".md"], (pages) => {
   for (const page of pages) {

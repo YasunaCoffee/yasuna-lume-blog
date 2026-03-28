@@ -121,6 +121,30 @@ main.body-home {
   border-bottom: 1px solid var(--md-sys-color-outline-variant);
 }
 
+/* MDコピーボタン */
+.post-header {
+  position: relative;
+}
+
+.post-md-copy-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 0.72rem;
+  padding: 3px 9px;
+  border: 1px solid var(--md-sys-color-outline-variant, currentColor);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant, currentColor);
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.15s;
+}
+
+.post-md-copy-btn:hover {
+  opacity: 1;
+}
+
 /* 記事タイトル周り（詳細ページ：テーマの h1 既定より一段小さめ） */
 .post-header .post-emoji {
   margin: 0 0 0.35em;

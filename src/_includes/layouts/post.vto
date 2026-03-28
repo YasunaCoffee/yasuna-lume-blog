@@ -4,6 +4,7 @@ bodyClass: body-post
 ---
 <article class="post" data-pagefind-body data-title="{{ title }}" data-pagefind-index-attrs="data-title">
   <header class="post-header">
+    <button type="button" class="post-md-copy-btn" aria-label="記事のMarkdownをコピー">MDコピー</button>
     {{ if it.emoji }}
     <p class="post-emoji" aria-hidden="true">{{ it.emoji }}</p>
     {{ /if }}
@@ -58,6 +59,20 @@ bodyClass: body-post
     </dl>
   </aside>
   {{ /if }}
+
+  <script>
+    (function () {
+      var md = {{ rawMarkdown |> jsString }};
+      var btn = document.querySelector(".post-md-copy-btn");
+      if (!btn || !md) return;
+      btn.addEventListener("click", function () {
+        navigator.clipboard.writeText(md).then(function () {
+          btn.textContent = "コピーしました";
+          setTimeout(function () { btn.textContent = "MDコピー"; }, 2000);
+        });
+      });
+    })();
+  </script>
 
   {{ if comments?.src || comments?.bluesky }}
   <aside class="comments-section">
