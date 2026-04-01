@@ -585,6 +585,117 @@ function thumbTree(
   };
 }
 
+const SITE_DESCRIPTION = "AIエージェントと書く Lume ブログ";
+
+function topOgTree(
+  iconDataUrl: string | undefined,
+): Record<string, unknown> {
+  const inner: Record<string, unknown> = {
+    type: "div",
+    props: {
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        width: "100%",
+        height: "100%",
+        padding: "56px 64px",
+        backgroundColor: "#f8f9fc",
+        fontFamily: "Noto Sans JP",
+        borderRadius: 4,
+      },
+      children: [
+        {
+          type: "div",
+          props: {
+            style: {
+              display: "flex",
+              flexDirection: "column",
+              gap: 32,
+              flex: 1,
+              justifyContent: "center",
+            },
+            children: [
+              ...(iconDataUrl
+                ? [{
+                  type: "img",
+                  props: {
+                    src: iconDataUrl,
+                    width: 100,
+                    height: 100,
+                    style: {
+                      borderRadius: 8,
+                      border: "1px solid #c3c6cf",
+                    },
+                  },
+                }]
+                : []),
+              {
+                type: "div",
+                props: {
+                  style: {
+                    fontSize: 64,
+                    fontWeight: 700,
+                    color: "#1d1b20",
+                    lineHeight: 1.35,
+                    letterSpacing: "-0.02em",
+                  },
+                  children: SITE_NAME,
+                },
+              },
+              {
+                type: "div",
+                props: {
+                  style: {
+                    fontSize: 36,
+                    color: "#5b6b7a",
+                    lineHeight: 1.5,
+                  },
+                  children: SITE_DESCRIPTION,
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "div",
+          props: {
+            style: {
+              display: "flex",
+              alignItems: "center",
+              borderTop: "1px solid #dbe4ef",
+              paddingTop: 24,
+            },
+            children: [
+              {
+                type: "div",
+                props: {
+                  style: { fontSize: 22, color: "#5b6b7a" },
+                  children: new URL(SITE_URL).hostname,
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+  };
+  return {
+    type: "div",
+    props: {
+      style: {
+        display: "flex",
+        width: "100%",
+        height: "100%",
+        padding: `${OG_FRAME_WIDTH_PX}px`,
+        backgroundColor: OGP_FRAME_COLOR,
+        boxSizing: "border-box",
+      },
+      children: [inner],
+    },
+  };
+}
+
 async function main(): Promise<void> {
   await Deno.mkdir(OG_DIR, { recursive: true });
   await Deno.mkdir(THUMB_DIR, { recursive: true });
@@ -603,6 +714,17 @@ async function main(): Promise<void> {
 
   const [fontData, fontBoldData] = await loadFonts();
   const fonts = fontDefs(fontData, fontBoldData);
+
+  // トップページ用 OGP 画像を生成
+  const topSvg = await satori(topOgTree(iconDataUrl) as never, {
+    width: OG_WIDTH,
+    height: OG_HEIGHT,
+    fonts,
+  });
+  const topPng = toPng(topSvg);
+  const topPath = join(OG_DIR, "index.png");
+  await Deno.writeFile(topPath, topPng);
+  console.log(`og: ${relative(ROOT, topPath)}`);
 
   for await (const e of Deno.readDir(POSTS_DIR)) {
     if (!e.isFile || !e.name.endsWith(".md") || e.name === "_data.yml") continue;
