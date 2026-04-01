@@ -37,7 +37,7 @@ site.use(blog());
 /** GitHub Pages のプロジェクトサイト（/REPO/）で /thumbnails 等の絶対パスを直す */
 site.use(basePath());
 
-/** 記事の OGP 画像パス（generate-og.ts が出力する /og/{slug}.png） */
+/** 記事の OGP 画像パスと lastUpdated（updated ?? date）を設定 */
 site.process([".md"], (pages) => {
   for (const page of pages) {
     const src = pageSrcPath(page.src);
@@ -45,6 +45,9 @@ site.process([".md"], (pages) => {
     if (!m || m[1] === "_data") continue;
     const stem = m[1];
     page.data.image = `/og/${stem}.png`;
+    // updated が設定されていればそちらを、なければ date を使う（Date オブジェクトに統一）
+    const rawDate = page.data.updated ?? page.data.date;
+    page.data.lastUpdated = rawDate instanceof Date ? rawDate : new Date(String(rawDate));
   }
 });
 
