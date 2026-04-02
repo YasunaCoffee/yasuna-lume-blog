@@ -22,10 +22,22 @@
     <link rel="canonical" href="{{ url |> url(true) }}">
     <script src="/js/main.js" type="module"></script>
     {{ set ogimg = url |> postOgImage }}
+    {{ if !ogimg && it.image }}
+    {{ set ogimg = it.image |> url(true) }}
+    {{ /if }}
+    <meta property="og:type" content="{{ it.type == 'post' ? 'article' : 'website' }}">
+    <meta property="og:url" content="{{ url |> url(true) }}">
+    <meta property="og:title" content="{{ it.title ? it.title + ' - ' + metas.site : metas.site }}">
+    <meta property="og:description" content="{{ it.description || metas.description }}">
+    <meta property="og:site_name" content="{{ metas.site }}">
     {{ if ogimg }}
     <meta property="og:image" content="{{ ogimg }}">
     <meta name="twitter:image" content="{{ ogimg }}">
     {{ /if }}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="{{ metas.twitter }}">
+    <meta name="twitter:title" content="{{ it.title ? it.title + ' - ' + metas.site : metas.site }}">
+    <meta name="twitter:description" content="{{ it.description || metas.description }}">
     {{ it.extra_head?.join("\n") }}
   </head>
   <body>
