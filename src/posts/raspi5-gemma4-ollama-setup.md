@@ -1,5 +1,5 @@
 ---
-title: "RasPi5 8GBにGemma4をOllamaで入れてPicoClawと繋ごうとした話"
+title: "RasPi5 8GBにGemma4をOllamaで動かした記録"
 date: "2026-04-04"
 author: yasuna
 emoji: "🫐"
@@ -10,18 +10,16 @@ tags:
   - LLM
   - Ollama
   - ローカルLLM
-  - AIエージェント
 draft: false
-description: "Raspberry Pi 5 8GBにGemma4をOllamaで動かしてPicoClawと連携するセットアップを試みた記録。e4bはRAM不足で動かず、e2bは動いたけどthinkingが遅い問題にぶつかった。"
+description: "Raspberry Pi 5 8GBにGemma4をOllamaで動かした記録。e4bはRAM不足で起動せず、e2bはコンテキストを絞ることで体感速度が大きく改善した。"
 ---
 
 こんにちは！yasunaです！
 
-Raspberry Pi 5 8GBに完全ローカルのAIエージェントを作ろうとして、いろいろぶつかった記録です。
+Raspberry Pi 5 8GBにGemma4をOllamaで入れて、完全ローカルでLLMを動かそうとした記録です。
 
-構成のイメージはこう：
-- **Gemma4**（Googleの小さいモデル）をOllamaで動かして「脳」にする
-- **PicoClaw**（Go製の超軽量エージェント）を「手足」にする
+構成：
+- **Gemma4**（GoogleのEdge向けモデル）をOllamaで動かす
 - Mac（Warp）からSSHして操作する
 
 結果から言うと：**動いたけど遅い**、がいまの状況です。
@@ -177,56 +175,12 @@ locale
 
 ---
 
-# PicoClawはまだ途中
-
-PicoClawのconfig.jsonを開こうとしたら：
-
-```bash
-~/.picoclaw/config.json
-# Permission denied
-```
-
-`picoclaw onboard` 実行済みでも出る場合は、`sudo` で実行したことで所有権がrootになっているパターンが多い：
-
-```bash
-sudo chown -R pi:pi ~/.picoclaw
-chmod -R 755 ~/.picoclaw
-```
-
-その後 `nano ~/.picoclaw/config.json` で開けるようになる。
-
-設定内容はこんな感じ：
-
-```json
-{
-  "agents": {
-    "defaults": {
-      "model_name": "gemma-local",
-      "system_prompt": "思考は短く。すぐに結論を出して。"
-    }
-  },
-  "model_list": [
-    {
-      "model_name": "gemma-local",
-      "model": "ollama/gemma4:e2b",
-      "api_base": "http://localhost:11434/v1",
-      "api_key": "ollama"
-    }
-  ]
-}
-```
-
-`picoclaw agent` で起動してGemma4:e2bと会話できるはず——の段階まで来ている。
-
----
-
 # 今日わかったこと
 
 - Pi5 8GBでGemma4は **e2b** が現実的（e4bはRAM不足で起動すら無理）
 - `OLLAMA_NUM_CTX=1024` or `2048` を指定するだけで体感速度が大きく変わる
 - thinkingはプロンプトで抑えられるが根本解決ではない
 - Pi OS LiteにはデフォルトでUTF-8日本語ロケールが入っていないので先に設定する
-- `picoclaw onboard` を `sudo` でやると所有権がrootになってconfig.jsonが触れなくなる
 
-32GB SDカード・Pi5 8GBという制約の中で、完全ローカルAIエージェントを動かすのはギリギリ可能。でも「普段遣いで待ちなし」にするにはモデルの選択がシビア。phi3:miniやgemma2:2bのほうが速い可能性があって、次はそのあたりを試したい。
+32GB SDカード・Pi5 8GBという制約の中でGemma4を動かすのはギリギリ可能。でも「普段遣いで待ちなし」にするにはモデルの選択がシビアで、phi3:miniやgemma2:2bのほうが速い可能性がある。次はそのあたりを試したい。
 
