@@ -6,6 +6,8 @@
 
 | 用途 | パス |
 |------|------|
+| 記事執筆（Claude Code スキル） | `.claude/skills/yasuna-tech-post/SKILL.md` |
+| ビルド/プレビュー（Claude Code スキル） | `.claude/skills/yasuna-tech-build/SKILL.md` |
 | 2026 実績ページの更新手順（スキル） | `.cursor/skills/jisseki-2026-update/SKILL.md` |
 | 文体・トーン | `prompts/yasuna-style-prompt.md` |
 | 公開記事（ビルド対象） | `src/posts/*.md` |
