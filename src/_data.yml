@@ -22,6 +22,8 @@ home:
       label: 自己紹介・活動まとめ
     - href: /posts/jisseki-2026/
       label: 2026年の実績
+    - href: /posts/products/
+      label: つくったもの
 
 menu_links: []
 extra_head: []
