@@ -6,6 +6,7 @@
   "tasks": {
     "lume": "echo \"import 'lume/cli.ts'\" | deno run -A -",
     "og": "deno run -A ./scripts/generate-og.ts",
+    "linkcards": "deno run -A ./scripts/generate-linkcards.ts",
     "build": "deno task og && deno task lume",
     "dev": "deno task og && deno task lume -s",
     "serve": "deno task lume -s",

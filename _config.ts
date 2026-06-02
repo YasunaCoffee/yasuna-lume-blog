@@ -24,6 +24,84 @@ const site = lume({
   location: new URL(siteUrl),
 });
 
+/** OGP リンクカード: scripts/generate-linkcards.ts が書くキャッシュを読む（ビルド時はネット不要） */
+type LinkCard = {
+  url: string;
+  title: string;
+  description: string;
+  image: string;
+  siteName: string;
+};
+let LINKCARDS: Record<string, LinkCard> = {};
+try {
+  LINKCARDS = JSON.parse(
+    Deno.readTextFileSync(new URL("./linkcards.cache.json", import.meta.url)),
+  );
+} catch {
+  // キャッシュ未生成なら空（フォールバックのホスト名カードになる）
+}
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+function decodeEntities(s: string): string {
+  return s
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;/g, "'");
+}
+
+function renderLinkCard(rawUrl: string): string {
+  const url = decodeEntities(rawUrl).trim();
+  let host = url;
+  try {
+    host = new URL(url).hostname.replace(/^www\./, "");
+  } catch { /* そのまま */ }
+  const c = LINKCARDS[url];
+  const title = escapeHtml(c?.title || host);
+  const desc = c?.description ? escapeHtml(c.description) : "";
+  const site = escapeHtml(c?.siteName || host);
+  const img = c?.image
+    ? `<span class="link-card-thumb"><img src="${
+      escapeHtml(c.image)
+    }" alt="" loading="lazy" decoding="async"></span>`
+    : "";
+  return `<a class="link-card${c?.image ? "" : " link-card--noimg"}" href="${
+    escapeHtml(url)
+  }" target="_blank" rel="noopener noreferrer">` +
+    img +
+    `<span class="link-card-body">` +
+    `<span class="link-card-title">${title}</span>` +
+    (desc ? `<span class="link-card-desc">${desc}</span>` : "") +
+    `<span class="link-card-host">${site}</span>` +
+    `</span></a>`;
+}
+
+/** 記事 HTML 内の ```linkcard コードブロックをカードのグリッドに置換 */
+site.process([".html"], (pages) => {
+  const re =
+    /<pre[^>]*>\s*<code[^>]*class="[^"]*language-linkcard[^"]*"[^>]*>([\s\S]*?)<\/code>\s*<\/pre>/g;
+  for (const page of pages) {
+    if (typeof page.content !== "string") continue;
+    if (!page.content.includes("language-linkcard")) continue;
+    page.content = page.content.replace(re, (_m, inner: string) => {
+      const cards = inner
+        .split(/\r?\n/)
+        .map((l) => l.trim())
+        .filter((l) => /https?:\/\//i.test(l))
+        .map(renderLinkCard)
+        .join("");
+      return cards ? `<div class="link-card-grid">${cards}</div>` : "";
+    });
+  }
+});
+
 /** public/ 相当: src/public をサイトルートへ（例: /yasuna_gal.jpg） */
 site.copy("public", "/");
 
@@ -47,7 +125,9 @@ site.preprocess([".md"], (pages) => {
     page.data.image = `/og/${stem}.png`;
     // updated が設定されていればそちらを、なければ date を使う（Date オブジェクトに統一）
     const rawDate = page.data.updated ?? page.data.date;
-    page.data.lastUpdated = rawDate instanceof Date ? rawDate : new Date(String(rawDate));
+    page.data.lastUpdated = rawDate instanceof Date
+      ? rawDate
+      : new Date(String(rawDate));
   }
 });
 
@@ -67,8 +147,9 @@ site.filter("thumbUrl", (basename: unknown) => {
 });
 
 /** SNS 共有 URL 用 */
-site.filter("encodeURIComponent", (s: unknown) =>
-  encodeURIComponent(String(s ?? ""))
+site.filter(
+  "encodeURIComponent",
+  (s: unknown) => encodeURIComponent(String(s ?? "")),
 );
 
 /**

@@ -655,3 +655,99 @@ main.body-tag a:not(.badge):hover {
   white-space: nowrap;
   border: 0;
 }
+
+/* ---------- OGP リンクカード（```linkcard → グリッド）---------- */
+.link-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+/* 本文に 1 枚だけ置いたときは横長カード（画像左・本文右）にする */
+.link-card-grid:has(> .link-card:only-child) {
+  grid-template-columns: 1fr;
+}
+.link-card-grid:has(> .link-card:only-child) .link-card {
+  flex-direction: row;
+}
+.link-card-grid:has(> .link-card:only-child) .link-card-thumb {
+  width: 40%;
+  max-width: 240px;
+  aspect-ratio: 1.91 / 1;
+}
+
+.link-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background: var(--md-sys-color-surface-container);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.link-card:hover {
+  border-color: var(--md-sys-color-outline);
+  background: var(--md-sys-color-surface-container-high);
+}
+
+.link-card-thumb {
+  display: block;
+  flex-shrink: 0;
+  aspect-ratio: 1.91 / 1;
+  background: var(--md-sys-color-surface-container-high);
+  overflow: hidden;
+}
+
+.link-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
+.link-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.85rem 1rem;
+  min-width: 0;
+}
+
+.link-card-title {
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--md-sys-color-on-surface);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.link-card-desc {
+  font: var(--font-small);
+  line-height: 1.5;
+  color: var(--md-sys-color-on-surface-variant);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.link-card-host {
+  font: var(--font-small);
+  color: var(--md-sys-color-outline);
+  margin-top: auto;
+}
+
+@media (max-width: 480px) {
+  .link-card-grid:has(> .link-card:only-child) .link-card {
+    flex-direction: column;
+  }
+  .link-card-grid:has(> .link-card:only-child) .link-card-thumb {
+    width: 100%;
+    max-width: none;
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "https://muilab.com/": {
+    "url": "https://muilab.com/",
+    "title": "mui Lab",
+    "description": "mui Labは京都に拠点を置くスタートアップです。Calm Technology™の設計思想に基づき、人と人、人と自然が調和する暮らしを実現するための製品やサービスを開発しています。",
+    "image": "https://muilab.com/image/common/og.jpg",
+    "siteName": "mui Lab"
+  },
+  "https://remarkable.com/": {
+    "url": "https://remarkable.com/",
+    "title": "reMarkable: The Paper Tablets for Focused Work",
+    "description": "Experience the power of focused work. reMarkable’s paper tablets and accessories provide a dedicated space for your notes, documents, and ideas, free from no...",
+    "image": "https://cdn.sanity.io/images/xpujt61d/production/59cad973950c0d1b88516159950dff94e2bf73d4-2400x1260.png",
+    "siteName": "remarkable.com"
+  },
+  "https://mudita.com/": {
+    "url": "https://mudita.com/",
+    "title": "Mudita | Minimalist tech, vibrant life.",
+    "description": "Find your balance with Mudita's mindfully designed devices. Our phones, alarm clocks, and watches help you stay connected to what truly matters.",
+    "image": "https://images.ctfassets.net/isxmxtc67n72/6Ka1Wcct32Qyha8Wugc23I/6526374a0c4906b036c5b67b83a94743/01_mudita.jpg?w=1200&h=630&fl=progressive&q=50&fm=jpg",
+    "siteName": "mudita.com"
+  },
+  "https://www.thelightphone.com/": {
+    "url": "https://www.thelightphone.com/",
+    "title": "The Light Phone",
+    "description": "Light is a radically different technology company. We design beautiful tools that respect and empower our users and our first product is The Light Phone.",
+    "image": "https://www.thelightphone.com/assets/images/social-share-card.jpg",
+    "siteName": "thelightphone.com"
+  },
+  "https://daylightcomputer.com/": {
+    "url": "https://daylightcomputer.com/",
+    "title": "Daylight | A More Caring Computer",
+    "description": "Daylight Computer (DC1) is a new kind of calm computer, designed for deep work and health.",
+    "image": "https://daylightcomputer.com/_next/static/media/OG-homepage.c818d83e.png",
+    "siteName": "daylightcomputer.com"
+  },
+  "https://blippo.plus/": {
+    "url": "https://blippo.plus/",
+    "title": "Blippo+",
+    "description": "Blippo+ is a live-action, new wave, off-cable TV simulator. Tune in to channel-surf the stars and discover the staticky, radical world of Planet Blip, where everything is about to get bent. Available now for Playdate, Steam, Nintendo Switch, Itch.io, and Mac App Store.",
+    "image": "https://blippo.plus/share-card.png",
+    "siteName": "blippo.plus"
+  },
+  "https://www.calmtech.institute/calm-tech-certified-products": {
+    "url": "https://www.calmtech.institute/calm-tech-certified-products",
+    "title": "CERTIFIED PRODUCTS | Calm Tech Institute",
+    "description": "",
+    "image": "https://static.wixstatic.com/media/4c414f_d67345f4a7ee4ec4b3ae68e90880ea9e%7Emv2.png/v1/fit/w_2500,h_1330,al_c/4c414f_d67345f4a7ee4ec4b3ae68e90880ea9e%7Emv2.png",
+    "siteName": "Calm Tech Institute"
+  },
+  "https://calmtech.com/": {
+    "url": "https://calmtech.com/",
+    "title": "Calm Technology",
+    "description": "Calm technology is maintained by Amber Case",
+    "image": "",
+    "siteName": "calmtech.com"
+  },
+  "https://spectrum.ieee.org/calm-tech": {
+    "url": "https://spectrum.ieee.org/calm-tech",
+    "title": "Calm Tech certification wants to \"reward\" unobtrusive tech",
+    "description": "The first certified devices were shown at CES 2025",
+    "image": "https://spectrum.ieee.org/media-library/a-child-using-their-finger-to-write-thank-you-for-your-hard-work-in-japanese-on-the-mui-board-gen-2-which-looks-like-wood-dec.jpg?id=55669913&width=1200&height=600&coordinates=0%2C400%2C0%2C400",
+    "siteName": "IEEE Spectrum"
+  },
+  "https://www.oreilly.com/library/view/calm-technology/9781491925874/": {
+    "url": "https://www.oreilly.com/library/view/calm-technology/9781491925874/",
+    "title": "Calm Technology",
+    "description": "How can you design technology that becomes a part of a user’s life and not a distraction from it? This practical book explores the concept of calm technology, a method for smoothly... - Selection from Calm Technology [Book]",
+    "image": "https://www.oreilly.com/library/cover/9781491925874/1200w630h/",
+    "siteName": "O’Reilly Online Learning"
+  },
+  "https://calmtech.com/papers/coming-age-calm-technology": {
+    "url": "https://calmtech.com/papers/coming-age-calm-technology",
+    "title": "Calm Technology",
+    "description": "",
+    "image": "",
+    "siteName": "calmtech.com"
+  }
+}

@@ -51,6 +51,23 @@ draft: false
 - 開発サーバー: `deno task serve`
 - 本番ビルド: `deno task build`（**先に `og` タスクでサムネ・OGP を生成**してから Lume。出力は `_site/`）
 - 画像だけ再生成: `deno task og`
+- リンクカードの OGP 取得: `deno task linkcards`
+
+## OGP リンクカード（```linkcard）
+
+記事に外部リンクを **カード**（リンク先の og:image・タイトル・説明）で並べたいときは、フェンスに URL を 1 行 1 つで書く。複数行ならグリッドのギャラリーになる。
+
+````markdown
+```linkcard
+https://muilab.com/
+https://remarkable.com/
+```
+````
+
+- 画像は **リンク先の OGP 画像をホットリンク**する（転載しない）。
+- 仕組み: `deno task linkcards` が `src/posts/*.md`・`drafts/*.md` を走査して OGP を取得し、`linkcards.cache.json`（**コミットする**）に保存。ビルド時は `_config.ts` の HTML 後処理がこのキャッシュを読んでカード化する（**ビルド自体はネット不要＝CI で安全**）。
+- 新しい URL を足したら **`deno task linkcards` を実行してキャッシュを更新**してからコミット・ビルドする。未取得の URL はホスト名だけの簡易カードにフォールバックする。
+- カードの見た目は `src/zenn.css` の `.link-card*`（`.post-card` と同じ Material Design 3 のサーフェス階層）。
 
 Deno が未インストールの環境では、実行前に [Deno のインストール](https://docs.deno.com/runtime/getting_started/installation/) が必要。
 
