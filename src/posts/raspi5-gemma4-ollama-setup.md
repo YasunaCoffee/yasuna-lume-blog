@@ -1,4 +1,6 @@
 ---
+id: post-raspi5-gemma4-ollama
+lang: ja
 title: "RasPi5 8GBにGemma4をOllamaで動かした記録"
 date: "2026-04-04"
 author: yasuna

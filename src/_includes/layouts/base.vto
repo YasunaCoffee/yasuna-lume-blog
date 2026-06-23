@@ -80,6 +80,17 @@
           <span class="icon">◐</span>
         </button>
       </li>
+      {{- if it.alternates && it.alternates.length > 1 }}
+      {{- for alt of it.alternates }}
+      {{- if alt.lang != it.lang }}
+      <li>
+        <a class="navbar-lang" href="{{ alt.url }}" hreflang="{{ alt.lang }}" lang="{{ alt.lang }}">
+          {{ it.languageNames[alt.lang] || alt.lang }}
+        </a>
+      </li>
+      {{ /if }}
+      {{ /for }}
+      {{ /if }}
       </ul>
     </nav>
 

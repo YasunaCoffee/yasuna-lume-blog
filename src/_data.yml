@@ -1,9 +1,24 @@
-lang: ja
-
 site_icon: "/yasuna_gal.jpg"
 
+menu_links: []
+extra_head: []
+
+# 言語切り替え UI に表示する各言語の名称
+languageNames:
+  ja: 日本語
+  en: English
+
+# 全言語共通のメタ情報（言語別の上書きは ja: / en: 側で行う）
+metas:
+  site: yasunaのてっくぶろぐ
+  description: AIエージェントと書く Lume ブログ
+  title: "=title"
+  image: "=image"
+  twitter: "@yasun_ai"
+  lang: ja
+
+# 全言語共通のプロフィール（タグライン・紹介リンクは言語別）
 home:
-  tagline: "yasuna / AIギャル個人開発者"
   profile_links:
     - href: https://x.com/yasun_ai
       label: X（@yasun_ai）
@@ -17,21 +32,111 @@ home:
     - href: https://github.com/YasunaCoffee/yasuna-tech
       label: GitHub
       icon: github
-  profile_intro_links:
-    - href: /posts/yasuna-kojin-katsudo-2025-7/
-      label: 自己紹介・活動まとめ
-    - href: /posts/jisseki-2026/
-      label: 2026年の実績
-    - href: /posts/products/
-      label: つくったもの
 
-menu_links: []
-extra_head: []
-
-metas:
-  site: yasunaのてっくぶろぐ
-  description: AIエージェントと書く Lume ブログ
-  title: "=title"
-  image: "=image"
-  twitter: "@yasun_ai"
+# ──────────────────────────────────────────────
+# 日本語（既定言語・URL プレフィックスなし）
+# ──────────────────────────────────────────────
+ja:
   lang: ja
+  metas:
+    site: yasunaのてっくぶろぐ
+    description: AIエージェントと書く Lume ブログ
+    lang: ja
+  home:
+    tagline: "yasuna / AIギャル個人開発者"
+    profile_intro_links:
+      - href: /posts/yasuna-kojin-katsudo-2025-7/
+        label: 自己紹介・活動まとめ
+      - href: /posts/jisseki-2026/
+        label: 2026年の実績
+      - href: /posts/products/
+        label: つくったもの
+  i18n:
+    nav:
+      toc: 目次
+      next_post: 次の記事 →
+      previous_post: ← 前の記事
+      continue_reading: 続きを読む →
+      archive_title: アーカイブ
+      archive: ほかの記事は<a href="/archive/">アーカイブ</a>にあります。
+      archive_link: アーカイブ（タグ・一覧）
+      back: ← 戻る
+      page: ページ
+      next: 次へ →
+      previous: ← 前へ
+    post:
+      by: 著者
+      reading_time: 分で読めます
+      ai_disclosure: この記事はAIエージェントと一緒に執筆しています
+    search:
+      by_author: の記事
+      by_tag: タグ
+      tags: タグ
+    share:
+      label: 共有
+      share_aria: この記事を共有
+      copy: コピー
+      copied: コピーしました
+      copy_aria: 記事のURLをクリップボードにコピー
+    home:
+      posts_aria: 記事一覧
+      profile_aria: プロフィール・外部リンク
+    comments:
+      title: コメント
+      description: "あなたの Mastodon（または ActivityPub 対応の SNS）のアカウントから<a href=\":src:\">この Mastodon の投稿</a>に返信するとコメントできます。"
+      description_bluesky: "あなたのアカウントから<a href=\":bluesky:\">この Bluesky の投稿</a>に返信するとコメントできます。"
+      description_all: "<a href=\":src:\">この Mastodon の投稿</a>または<a href=\":bluesky:\">この Bluesky の投稿</a>に、あなたのアカウントから返信するとコメントできます。"
+      empty: まだコメントはありません
+
+# ──────────────────────────────────────────────
+# 英語（/en/ 配下）
+# ──────────────────────────────────────────────
+en:
+  lang: en
+  metas:
+    site: "yasuna's Tech Blog"
+    description: A Lume blog written together with an AI agent
+    lang: en
+  home:
+    tagline: "yasuna / AI gyaru solo developer"
+    profile_intro_links:
+      - href: /en/posts/building-tech-blog-with-lume-deno/
+        label: How I built this blog
+      - href: /en/posts/raspberry-pi-5-gemma4-ollama/
+        label: Running an LLM on a Raspberry Pi 5
+  i18n:
+    nav:
+      toc: Table of Contents
+      next_post: Newer post →
+      previous_post: ← Older post
+      continue_reading: Continue reading →
+      archive_title: Archive
+      archive: More posts can be found in <a href="/en/archive/">the archive</a>.
+      archive_link: Archive (tags & list)
+      back: ← Back
+      page: Page
+      next: Next →
+      previous: ← Previous
+    post:
+      by: by
+      reading_time: min read
+      ai_disclosure: This post was written together with an AI agent.
+    search:
+      by_author: Posts by
+      by_tag: Tagged
+      tags: Tags
+    share:
+      label: Share
+      share_aria: Share this post
+      copy: Copy
+      copied: Copied
+      copy_aria: Copy the post URL to the clipboard
+    home:
+      posts_aria: Posts
+      profile_aria: Profile and external links
+    comments:
+      title: Comments
+      description: "You can leave a comment by replying to <a href=\":src:\">this Mastodon post</a> from your own account on Mastodon or any other ActivityPub-capable social network."
+      description_bluesky: "You can leave a comment by replying to <a href=\":bluesky:\">this Bluesky post</a> from your own account."
+      description_all: "You can leave a comment by replying to <a href=\":src:\">this Mastodon post</a> or <a href=\":bluesky:\">this Bluesky post</a> from your own account."
+      empty: No comments yet

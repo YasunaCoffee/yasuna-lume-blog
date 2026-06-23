@@ -39,7 +39,7 @@ bodyClass: body-post
 
   <div class="post-body body">
     <p class="post-ai-disclosure" role="note">
-      この記事はAIエージェントと一緒に執筆しています
+      {{ i18n.post.ai_disclosure }}
     </p>
     {{ content }}
   </div>
@@ -80,7 +80,7 @@ bodyClass: body-post
 
 <nav class="page-pagination pagination">
   <ul>
-    {{- set previousPost = search.previousPage(url, "type=post") }}
+    {{- set previousPost = search.previousPage(url, `type=post lang=${it.lang}`) }}
     {{- if previousPost }}
     <li class="pagination-prev">
       <a href="{{ previousPost.url }}" rel="prev">
@@ -90,7 +90,7 @@ bodyClass: body-post
     </li>
     {{ /if }}
 
-    {{- set nextPost = search.nextPage(url, "type=post") }}
+    {{- set nextPost = search.nextPage(url, `type=post lang=${it.lang}`) }}
     {{- if nextPost }}
     <li class="pagination-next">
       <a href="{{ nextPost.url }}" rel="next">

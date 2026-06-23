@@ -3,6 +3,9 @@ layout: layouts/base.vto
 bodyClass: body-home
 title: Home
 image: /og/index.png
+lang:
+  - ja
+  - en
 ---
 
 <header class="page-header page-header--home">
@@ -18,7 +21,7 @@ image: /og/index.png
       decoding="async"
     />
     {{ /if }}
-    <nav class="home-profile" aria-label="プロフィール・外部リンク">
+    <nav class="home-profile" aria-label="{{ i18n.home.profile_aria }}">
       <div class="home-profile-row">
         {{ if home.tagline }}
         <p class="home-profile-tagline">{{ home.tagline }}</p>
@@ -50,8 +53,8 @@ image: /og/index.png
   </div>
 </header>
 
-<section class="post-grid" aria-label="記事一覧">
-  {{ for post of search.pages("type=post", "lastUpdated=desc") }}
+<section class="post-grid" aria-label="{{ i18n.home.posts_aria }}">
+  {{ for post of search.pages(`type=post lang=${it.lang}`, "lastUpdated=desc") }}
   <article class="post-card">
     <a href="{{ post.url }}" class="post-card-link">
       <img
@@ -69,4 +72,6 @@ image: /og/index.png
   {{ /for }}
 </section>
 
-<p class="home-archive-link"><a href="/archive/">アーカイブ（タグ・一覧）</a></p>
+{{ if it.lang == "ja" }}
+<p class="home-archive-link"><a href="/archive/">{{ i18n.nav.archive_link }}</a></p>
+{{ /if }}
