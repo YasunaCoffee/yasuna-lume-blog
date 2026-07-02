@@ -44,7 +44,7 @@
   "https://www.calmtech.institute/calm-tech-certified-products": {
     "url": "https://www.calmtech.institute/calm-tech-certified-products",
     "title": "CERTIFIED PRODUCTS | Calm Tech Institute",
-    "description": "",
+    "description": "View all of the products certified by Calm Tech Institute",
     "image": "https://static.wixstatic.com/media/4c414f_d67345f4a7ee4ec4b3ae68e90880ea9e%7Emv2.png/v1/fit/w_2500,h_1330,al_c/4c414f_d67345f4a7ee4ec4b3ae68e90880ea9e%7Emv2.png",
     "siteName": "Calm Tech Institute"
   },
@@ -75,5 +75,12 @@
     "description": "",
     "image": "",
     "siteName": "calmtech.com"
+  },
+  "https://github.com/YasunaCoffee/utau-chan": {
+    "url": "https://github.com/YasunaCoffee/utau-chan",
+    "title": "GitHub - YasunaCoffee/utau-chan",
+    "description": "Contribute to YasunaCoffee/utau-chan development by creating an account on GitHub.",
+    "image": "https://opengraph.githubassets.com/16663bcbc48c523f3e0de2c591fabc996aec25805935ce1403bbeba061558296/YasunaCoffee/utau-chan",
+    "siteName": "GitHub"
   }
 }
