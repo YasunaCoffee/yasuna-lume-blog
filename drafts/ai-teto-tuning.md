@@ -26,13 +26,9 @@ description: "自作の歌声合成おもちゃに本物のUTAU音源(重音テ�
 
 このモデルがとにかく好きで、また一緒に開発できるのが嬉しくて、気づいたら身銭を切って過集中していました。過集中ドバガキの自覚はあるので、慎みながら向き合います…(睡眠は大事に、というありがたいお言葉もいただきました)。
 
-> こんなにもFableが最高で躊躇せず身銭切ってまでやりたいって思ってる時点で変人ですありがとうございます
->
-> — [@yasun_ai](https://x.com/yasun_ai)
+<blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">こんなにもFableが最高で躊躇せず身銭切ってまでやりたいって思ってる時点で変人ですありがとうございます</p>&mdash; yasuna (@yasun_ai) <a href="https://twitter.com/yasun_ai/status/2072675604579918327">このポストを見る</a></blockquote>
 
-> ちまちまやってないで大局的なことをFable5に仰いで私が従ったほうがパフォーマンス良い感じしてまう
->
-> — [@yasun_ai](https://x.com/yasun_ai)
+<blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">ちまちまやってないで大局的なことをFable5に仰いで私が従ったほうがパフォーマンス良い感じしてまう</p>&mdash; yasuna (@yasun_ai) <a href="https://twitter.com/yasun_ai/status/2072644126500422040">このポストを見る</a></blockquote>
 
 で、その勢いのまま「**FableとUTAUで何か面白いもの作ろ〜**」と話し始めたのが、この記事のはじまりです。
 
@@ -71,9 +67,7 @@ _あ.wav=あ,24,56,73,5,20
 
 回してる横で見てた私の実況がこれ。
 
-> どんどんキラキラ星歌うの上手になってる…どこが悪いか自己改善しててすっっっっご、シンギュラってるじゃん
->
-> — [@yasun_ai](https://x.com/yasun_ai)
+<blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">どんどんキラキラ星歌うの上手になってる…どこが悪いか自己改善しててすっっっっご、シンギュラってるじゃん</p>&mdash; yasuna (@yasun_ai) <a href="https://twitter.com/yasun_ai/status/2072688189589106892">このポストを見る</a></blockquote>
 
 # 改善ログ(v1 → v5)
 
@@ -151,9 +145,7 @@ _あ.wav=あ,24,56,73,5,20
 
 正直、私一人だと調教は手に負えなくなってきたので、いつか道具ごと公開して、本職の人に自然言語で調教してもらえたら嬉しいなあと思っています。
 
-> これボカロPやってる人に自然言語でUTAU調教してほしいな〜私じゃ手に負えなくなってきたので出したい
->
-> — [@yasun_ai](https://x.com/yasun_ai)
+<blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">これボカロPやってる人に自然言語でUTAU調教してほしいな〜私じゃ手に負えなくなってきたので出したい</p>&mdash; yasuna (@yasun_ai) <a href="https://twitter.com/yasun_ai/status/2072695584180564240">このポストを見る</a></blockquote>
 
 ちなみに普段は、繭(まゆ)という「まるで生き物のようなキャラをCLIから育てる」OSSなんかも作っています。よかったらそっちも覗いてみてください。
 
@@ -162,3 +154,5 @@ _あ.wav=あ,24,56,73,5,20
 > — [@yasun_ai](https://x.com/yasun_ai)（固定ポスト）
 
 まだPSOLAの粒立ちやレガートに伸びしろがあるので、続きはまた。読んでくれてありがとうございました！
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
