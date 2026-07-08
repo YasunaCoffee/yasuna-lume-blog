@@ -1,8 +1,8 @@
 {{ set absUrl = url |> url(true) }}
 {{ set encUrl = absUrl |> encodeURIComponent }}
 {{ set encTitle = title |> encodeURIComponent }}
-<nav class="post-share" aria-label="この記事を共有">
-  <span class="post-share-label">共有</span>
+<nav class="post-share" aria-label="{{ i18n.share.share_aria }}">
+  <span class="post-share-label">{{ i18n.share.label }}</span>
   <ul class="post-share-list">
     <li>
       <a
@@ -41,8 +41,9 @@
         type="button"
         class="post-share-btn post-share-copy"
         data-share-url="{{ absUrl }}"
-        aria-label="記事のURLをクリップボードにコピー"
-      >コピー</button>
+        data-copied-label="{{ i18n.share.copied }}"
+        aria-label="{{ i18n.share.copy_aria }}"
+      >{{ i18n.share.copy }}</button>
     </li>
   </ul>
 </nav>
@@ -54,7 +55,7 @@
         if (!u || !navigator.clipboard) return;
         navigator.clipboard.writeText(u).then(function () {
           var prev = btn.textContent;
-          btn.textContent = "コピーしました";
+          btn.textContent = btn.getAttribute("data-copied-label") || prev;
           setTimeout(function () {
             btn.textContent = prev;
           }, 2000);

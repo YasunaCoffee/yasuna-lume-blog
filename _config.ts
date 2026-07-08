@@ -1,7 +1,12 @@
 import lume from "lume/mod.ts";
 import basePath from "lume/plugins/base_path.ts";
+import multilanguage from "lume/plugins/multilanguage.ts";
 import blog from "https://deno.land/x/lume_theme_simple_blog@v0.15.11/mod.ts";
 import markdown from "lume/plugins/markdown.ts";
+
+/** 多言語設定: 既定は日本語（プレフィックスなし）、英語は /en/ 配下 */
+const LANGUAGES = ["ja", "en"] as const;
+const DEFAULT_LANGUAGE = "ja";
 
 const siteUrl = Deno.env.get("SITE_URL") ?? "http://localhost:3000/";
 
@@ -110,7 +115,14 @@ site.copy("og");
 site.copy("thumbnails");
 
 site.use(markdown({ options: { linkify: true } }));
-site.use(blog());
+/** RSS/JSON Feed は日本語記事のみ（英語は別フィードを将来追加する想定） */
+site.use(blog({ feed: { query: "type=post lang=ja" } }));
+
+/** 日英バイリンガル: 英語ページは /en/ にプレフィックスし、alternates を張る */
+site.use(multilanguage({
+  languages: [...LANGUAGES],
+  defaultLanguage: DEFAULT_LANGUAGE,
+}));
 
 /** GitHub Pages のプロジェクトサイト（/REPO/）で /thumbnails 等の絶対パスを直す */
 site.use(basePath());

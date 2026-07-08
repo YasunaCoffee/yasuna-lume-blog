@@ -47,6 +47,17 @@ deno task serve
 | `AGENTS.md` | Cursor 等のエージェント向け運用ルール |
 | `templates/post.md` | 新規記事のひな形 |
 
+## 多言語（日英バイリンガル）
+
+[Lume の multilanguage プラグイン](https://lume.land/plugins/multilanguage/)で日英を出し分けます。**既定は日本語**（URL プレフィックスなし）、**英語は `/en/` 配下**に出力されます。
+
+- 言語別の文言（UI ラベル・i18n）とプロフィールは `src/_data.yml` の **`ja:` / `en:`** ブロックで管理します。共通項目はトップレベル（`metas`・`home.profile_links`・`languageNames`）に置きます。
+- 記事の英訳を足すときは、`src/posts/` に英語スラッグの `.md` を新規作成し、フロントマターに **`lang: en`** と、日本語版と**同じ `id:`** を付けます。`id` が一致したペアが「言語切り替え」（ナビ右上）の対訳として相互リンクされます。
+- 例: `lume-deno-de-tech-blog-kochiku.md`（`lang: ja`, `id: post-lume-deno-blog`）↔ `building-tech-blog-with-lume-deno.md`（`lang: en`, `id: post-lume-deno-blog`）。
+- 英語記事もサムネ・OGP は `deno task og`（`src/posts/*.md` を走査）で生成されます。追加後は `deno task og` → `deno task build` を回してください。
+- トップページ（`src/index.vto`）は `lang: [ja, en]` の 1 ファイルで日英両方を出力し、記事グリッドは表示言語で絞り込みます。
+- RSS/JSON Feed は現状**日本語記事のみ**（`_config.ts` の `feed.query` で `lang=ja` に限定）。英語フィードは将来追加する想定です。
+
 ## GitHub Pages
 
 `.github/workflows/deploy.yml` で `main` へ push すると `_site` をデプロイする想定です。

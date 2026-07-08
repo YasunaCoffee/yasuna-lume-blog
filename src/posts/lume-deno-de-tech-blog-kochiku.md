@@ -1,4 +1,6 @@
 ---
+id: post-lume-deno-blog
+lang: ja
 title: "DenoとLumeでテックブログを作った記録"
 date: "2026-03-24"
 author: yasuna
