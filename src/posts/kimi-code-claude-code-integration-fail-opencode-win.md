@@ -1,5 +1,5 @@
 ---
-title: "Claude CodeにKimiを喋らせようとして負けて、opencodeに乗り換えた話"
+title: "Kimi Code CLIのハーネスがいまいちだったのでopencodeに乗り換えてみた"
 date: "2026-07-19"
 author: yasuna
 emoji: "🐧"
@@ -135,6 +135,10 @@ OpenCodeです。
 
 opencodeのTUI下部にちゃんと**「Kimi K3 Kimi Code」**と出ています。ここまで来れば、あとは普通にコーディングエージェントとして使うだけです。
 
+念のためKimi側の使用履歴も確認したところ、`opencode/1.18.3 ai-sdk/provider-utils/4.0.23 runtime/bun/1.3.14`というUser-Agentで「Model Inference」がちゃんと記録されていました。opencode経由のリクエストが**Kimi側にきちんと届いている**という裏付けです。
+
+今回使ったAPIキーは`platform.moonshot.ai`の従量課金用ではなく、**Kimiのサブスクページ（Code特典付きの会員プラン）**発行のもので、エンドポイントも公式`kimi`コマンド自体が使っているのと同じ`https://api.kimi.com/coding/v1`でした。つまりopencode経由の利用も、追加課金ではなく**サブスク特典の枠内でカウントされている**はずです。一方で、公式CLIに1日あたりの利用回数のようなクォータ管理があるとすれば、opencode経由の消費もそこと合算されている可能性が高いので、使いすぎると公式`kimi`コマンド側の残り回数を圧迫することになりそうです。このあたりの実際の消費ペースは、Kimiのサブスクページの使用状況画面で確認するのが確実です。
+
 # まとめ
 
 - Claude CodeはClaude.aiアカウントにログイン済みだと、`ANTHROPIC_API_KEY`/`ANTHROPIC_BASE_URL`環境変数より**ログインセッションを優先する**。公式のオンボーディング回避スクリプトを踏んでも解決しなかった
@@ -142,6 +146,7 @@ opencodeのTUI下部にちゃんと**「Kimi K3 Kimi Code」**と出ています
 - opencodeのようなマルチプロバイダー前提のツールなら、`@ai-sdk/openai-compatible`経由でbaseURLとAPIキーを明示するだけで数分で終わる
 - 使っているAPIキーがどの発行元（platform.moonshot.ai か Kimiサブスクページか）のものかによってbaseURLが変わるので、そこは要注意
 - `models`にモデルIDを足すだけで、K2.7 CodingもK3もHighspeed版も同じプロバイダー設定の中で切り替えられる
+- Kimiサブスクページ発行のキーを使う場合、opencode経由の利用も公式CLIと同じサブスク特典の枠内でカウントされる（＝クォータが合算されている）可能性が高い
 
 「ツールを無理に使い続ける」より「向いているツールに乗り換える」方が早い、という当たり前だけど忘れがちな教訓でした。あと片付けとして`claude-kimi`関数と`~/.claude.json`のフラグはちゃんと元に戻してあります。普段のClaude Codeはこれまで通り、KimiはopencodeでOKという住み分けに落ち着きました。
 
