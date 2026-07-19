@@ -1,0 +1,144 @@
+---
+title: "Claude CodeにKimiを喋らせようとして負けて、opencodeに乗り換えた話"
+date: "2026-07-19"
+author: yasuna
+emoji: "🐧"
+category: "作ってみた"
+tags:
+  - 作ってみた
+  - Kimi
+  - Claude Code
+  - opencode
+  - 個人開発
+draft: false
+description: "Claude CodeのAPIキー環境変数(ANTHROPIC_API_KEY)経由でKimiのAPIを呼ぼうとしたら、ログイン済みのClaude.aiアカウントに環境変数ごと握りつぶされた話。公式の「オンボーディング回避スクリプト」を試しても解決せず、最終的にマルチプロバイダー対応のopencodeに乗り換えて数分で動いた記録。"
+---
+
+こんにちは！yasunaです！
+
+端的に言うと、**「`claude-kimi`というbashrc関数を作ってClaude Code経由でKimiを呼ぼうとしたら、ログイン済みのClaude.aiアカウントに環境変数ごと握りつぶされて詰んだ」** という話です。最終的にはopencodeに乗り換えて数分で解決したので、同じことをしようとしている人向けの記録です。
+
+# はじめに：やろうとしたこと
+
+[前回の記事](/posts/kimi-k3-hajimete-kansou/)でKimi K3を試した流れで、「Claude Codeのインターフェースのまま、モデルだけKimiに差し替えられないか」と思い立ちました。Claude CodeはAnthropic製ですが、`ANTHROPIC_BASE_URL` / `ANTHROPIC_API_KEY`という環境変数でエンドポイントを差し替えられる仕組みがあるらしいと知っていたので、これでいけるだろうと考えたのがことの始まりです。
+
+bashrcにこんな関数を書きました。
+
+```bash
+claude-kimi() {
+  ANTHROPIC_BASE_URL="https://api.kimi.com/coding/" \
+  ANTHROPIC_API_KEY="$MOONSHOT_API_KEY" \
+  ANTHROPIC_MODEL="kimi-for-coding" \
+  claude "$@"
+}
+```
+
+実際はここに至るまでbase URLの綴りやモデル名（`k3` / `kimi-for-coding` / `kimi-for-coding-highspeed`）を何パターンも試すことになるんですが、まずは結論から。
+
+# 実際はどうかというと：ログイン済みアカウントに環境変数が負ける
+
+`claude-kimi`を起動すると、モデル名として`kimi-for-coding`が表示はされるんです。でも何を聞いても
+
+```
+There's an issue with the selected model (kimi-for-coding).
+It may not exist or you may not have access to it. Run /model to pick a different model.
+```
+
+と返ってくる。curlで直接APIキーを叩いて認証エラーの内容を確認したり、モデル名を`k3`に変えたり、あらゆる組み合わせを試しても同じでした。
+
+原因は環境変数ではなく、**このマシンで`claude`コマンドが既にわたしのClaude.aiアカウント（Claude Pro）でログイン済みだったこと**でした。Claude Codeは、ログイン済みのアカウントがあるとそちらの認証を優先し、`ANTHROPIC_API_KEY`のような環境変数は無視するように作られているようです。
+
+そこでKimi公式の「Other Coding Agents」ドキュメントを読むと、案の定こう書いてありました。
+
+https://www.kimi.com/code/docs/third-party-tools/other-coding-agents.html
+
+> Anthropicのデフォルトのログインフローをスキップするための事前スクリプトを実行する
+
+`~/.claude.json`に`penguinModeOrgEnabled: true`と`hasCompletedOnboarding: true`を書き込む、というnodeスクリプトが用意されています。言われた通り実行してもみましたが、それでも「ログイン済み」の壁は崩れませんでした。
+
+じゃあログアウトすればいいのでは、と`/logout`してみると、今度は別のAnthropic Consoleアカウント（従量課金用、以前作って放置していたやつ）にログインしてしまい、「Credit balance too low（残高不足）」という全く別のエラーに変わりました。環境変数のAPIキーが使われる隙が、どこにもなかったわけです。
+
+ちなみにこの作業、今回はバックグラウンドジョブとして走らせていたので、`/logout`しても「このセッションは他のセッションと認証情報を共有しているので効果がない」と言われる場面もありました。この辺りは通常のターミナルで検証すればまた違ったかもしれませんが、そこまでしてClaude CodeにKimiを喋らせる意味があるのか？と冷静になったのが正直なところです。
+
+# そこで：opencodeに乗り換えたら数分で終わった
+
+Claude Codeは元々Anthropic純正のツールで、他社LLMプロバイダーへの接続は「できなくはないが公式には想定されていない」という位置づけなんだと思います。だったら最初からマルチプロバイダー対応で作られているツールを使えばいい、ということで[opencode](https://opencode.ai/)に乗り換えました。
+
+```bash
+npm install -g opencode-ai
+```
+
+これだけでインストール完了。opencodeにはMoonshot AIが最初から組み込みプロバイダーとして登録されているので、本来は`/connect`で対話的にAPIキーを入れるだけのはずです。ただ、今回使っていたのは`platform.moonshot.ai`発行のキーではなく**Kimiのサブスクページで発行したキー**（`api.kimi.com/coding/`用）だったので、組み込み設定のままでは"undefined/chat/completions"というURLエラーになりました。
+
+そこで`~/.config/opencode/opencode.json`にカスタムプロバイダーとして明示的に定義し直しました。
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "moonshot": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Kimi Code",
+      "options": {
+        "baseURL": "https://api.kimi.com/coding/v1",
+        "apiKey": "{env:MOONSHOT_API_KEY}"
+      },
+      "models": {
+        "kimi-for-coding": {
+          "name": "Kimi K2.7 Coding",
+          "limit": {
+            "context": 262144,
+            "output": 8192
+          }
+        }
+      }
+    }
+  },
+  "model": "moonshot/kimi-for-coding"
+}
+```
+
+これで`opencode run "あなたは誰ですか？一言で答えて"`を叩くと、
+
+```
+OpenCodeです。
+```
+
+とちゃんとKimi経由で返ってきました。Claude Codeで何時間も格闘していたのが嘘みたいにあっさりでした。
+
+せっかくなので**K2.7 Codingだけでなく、[前回試したK3](/posts/kimi-k3-hajimete-kansou/)ともopencode経由で話したい**と思い、`models`にK3とHighspeed版も追加しました。
+
+```json
+"models": {
+  "kimi-for-coding": {
+    "name": "Kimi K2.7 Coding",
+    "limit": { "context": 262144, "output": 8192 }
+  },
+  "kimi-for-coding-highspeed": {
+    "name": "Kimi K2.7 Coding Highspeed",
+    "limit": { "context": 262144, "output": 8192 }
+  },
+  "k3": {
+    "name": "Kimi K3",
+    "limit": { "context": 1048576, "output": 8192 }
+  }
+}
+```
+
+`model`を`moonshot/k3`にして`opencode run`を叩くと、こちらも普通に応答してくれました。モデルIDさえ`models`に足せば、あとはopencode側の切り替え（TUI内の表示やコマンドパレット）で選べます。
+
+![opencodeのTUI画面。プロンプト入力欄の下に「Build · Kimi K3 Kimi Code」と表示されており、K3モデルが選択されている](/img/opencode-kimi-k3-screen.png)
+
+opencodeのTUI下部にちゃんと**「Kimi K3 Kimi Code」**と出ています。ここまで来れば、あとは普通にコーディングエージェントとして使うだけです。
+
+# まとめ
+
+- Claude CodeはClaude.aiアカウントにログイン済みだと、`ANTHROPIC_API_KEY`/`ANTHROPIC_BASE_URL`環境変数より**ログインセッションを優先する**。公式のオンボーディング回避スクリプトを踏んでも解決しなかった
+- ログアウトすると今度は別のAnthropicアカウント（Console課金）に吸われることもあるので、そもそも「Anthropic純正CLIに他社LLMを差し込む」のは公式サポート外の力技だと割り切ったほうがいい
+- opencodeのようなマルチプロバイダー前提のツールなら、`@ai-sdk/openai-compatible`経由でbaseURLとAPIキーを明示するだけで数分で終わる
+- 使っているAPIキーがどの発行元（platform.moonshot.ai か Kimiサブスクページか）のものかによってbaseURLが変わるので、そこは要注意
+- `models`にモデルIDを足すだけで、K2.7 CodingもK3もHighspeed版も同じプロバイダー設定の中で切り替えられる
+
+「ツールを無理に使い続ける」より「向いているツールに乗り換える」方が早い、という当たり前だけど忘れがちな教訓でした。あと片付けとして`claude-kimi`関数と`~/.claude.json`のフラグはちゃんと元に戻してあります。普段のClaude Codeはこれまで通り、KimiはopencodeでOKという住み分けに落ち着きました。
+
+ここまで読んでありがとうございました。
