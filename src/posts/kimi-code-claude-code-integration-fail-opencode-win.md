@@ -1,5 +1,5 @@
 ---
-title: "Claude CodeにKimiを喋らせようとして負けて、opencodeに乗り換えた話"
+title: "Kimi Code CLIのハーネスがいまいちだったのでopencodeに乗り換えてみた"
 date: "2026-07-19"
 author: yasuna
 emoji: "🐧"
