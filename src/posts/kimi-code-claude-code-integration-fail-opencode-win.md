@@ -50,7 +50,7 @@ It may not exist or you may not have access to it. Run /model to pick a differen
 
 と返ってくる。curlで直接APIキーを叩いて認証エラーの内容を確認したり、モデル名を`k3`に変えたり、あらゆる組み合わせを試しても同じでした。
 
-原因は環境変数ではなく、**このマシンで`claude`コマンドが既にわたしのClaude.aiアカウント（Claude Pro）でログイン済みだったこと**でした。Claude Codeは、ログイン済みのアカウントがあるとそちらの認証を優先し、`ANTHROPIC_API_KEY`のような環境変数は無視するように作られているようです。
+原因は環境変数ではなく、**このマシンで`claude`コマンドが既にわたしのClaude.aiアカウントでログイン済みだったこと**でした。Claude Codeは、ログイン済みのアカウントがあるとそちらの認証を優先し、`ANTHROPIC_API_KEY`のような環境変数は無視するように作られているようです。
 
 そこでKimi公式の「Other Coding Agents」ドキュメントを読むと、案の定こう書いてありました。
 
