@@ -12,11 +12,6 @@ description: >-
 
 yasuna のテックブログ（Deno + Lume）をビルド・プレビューする。
 
-## リポジトリの場所
-
-- ローカル: `/home/yasuna/dev/yasuna-tech`
-- 無ければ取得: `git clone https://github.com/YasunaCoffee/yasuna-tech.git`
-
 すべてのコマンドはリポジトリのルートで実行する。
 
 ## 前提: Deno
@@ -37,13 +32,23 @@ Deno が必要。未インストールなら案内する: https://docs.deno.com/
 
 ## 実行のしかた（このセッション内で開発サーバーを動かす場合）
 
-開発サーバーは起動しっぱなしになるため、バックグラウンド実行する。例:
+開発サーバーは起動しっぱなしになるため、**バックグラウンド実行**する（`deno task dev`）。
+起動後、ターミナルに表示される `http://localhost:3000`（など）の URL をユーザーに伝える。
+ビルドエラーが出たら出力をそのまま報告する。
 
-```bash
-cd /home/yasuna/dev/yasuna-tech && deno task dev
-```
+## リンクカード（`deno task linkcards`）
 
-起動後、ターミナルに表示される `http://localhost:3000`（など）の URL をユーザーに伝える。ビルドエラーが出たら出力をそのまま報告する。
+記事に `linkcard` フェンス（言語指定を `linkcard` にして URL を1行1つ）を足したときだけ実行する。
+書き方は `yasuna-tech-post` スキルにある。
+
+- `src/posts/*.md` と `drafts/*.md` を走査して OGP を取得し、`linkcards.cache.json` に保存する。
+- **このキャッシュはコミットする。** ビルド時は `_config.ts` の HTML 後処理がキャッシュを読むので、
+  **ビルド自体はネット不要**（CI で安全）。
+- 未取得の URL はホスト名だけの簡易カードにフォールバックする。新しい URL を足したら、
+  コミット・ビルドの前にこのタスクを流す。
+- **ネットワークが無い環境では失敗する。** その場合は既存のキャッシュのまま進めて、
+  カードが簡易表示になることをユーザーに伝える。
+- 見た目は `src/zenn.css` の `.link-card*`。
 
 ## やらないこと
 

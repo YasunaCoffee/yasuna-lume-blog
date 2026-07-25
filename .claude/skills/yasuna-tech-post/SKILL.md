@@ -13,12 +13,8 @@ description: >-
 
 yasuna のテックブログ（Deno + Lume）に、**yasuna 文体**で記事を書くためのスキル。
 
-## リポジトリの場所
-
-- ローカル: `/home/yasuna/dev/yasuna-tech`
-- 無ければ取得: `git clone https://github.com/YasunaCoffee/yasuna-tech.git`（`/home/yasuna/dev/` 配下を推奨）
-
-以降の手順はこのリポジトリのルートで作業する。**まず `AGENTS.md` を読んで運用全体を把握する**こと。
+作業はリポジトリのルートで行う。運用全体と落とし穴は `AGENTS.md` にある。
+手元に無ければ `git clone https://github.com/YasunaCoffee/yasuna-tech.git`。
 
 ## 手順
 
@@ -39,24 +35,26 @@ yasuna のテックブログ（Deno + Lume）に、**yasuna 文体**で記事を
 
 ### 3. フロントマターを付ける
 
-`templates/post.md` を雛形にする。ファイル名・スラッグは **kebab-case**（`foo-bar.md` → `/posts/foo-bar/`）。
+**`templates/post.md` をコピーして起こす**（フロントマターと見出し構成の雛形が入っている。
+このスキルに複製しない＝単一ソースを保つ）。ファイル名・スラッグは **kebab-case**
+（`foo-bar.md` → `/posts/foo-bar/`）。
 
-```yaml
----
-title: "記事タイトル"
-date: "YYYY-MM-DD"
-author: yasuna
-emoji: "📝"
-category: "カテゴリ名"   # 省略時は先頭の tags がサムネ上のカテゴリ表示になる
-tags:
-  - タグ1
-  - タグ2
-draft: false
----
+雛形の値を差し替えるときの注意は `AGENTS.md` の「落とし穴」を見る（`emoji` はサムネにも使う、
+`category` 省略時の挙動、タイトルに使えない文字、`:::message` が効かないこと）。
+
+### 3.5. 外部リンクをカードで並べる（任意）
+
+言語指定を `linkcard` にしたフェンスに、URL を1行1つ。複数行ならグリッドになる。
+
+````markdown
+```linkcard
+https://muilab.com/
+https://remarkable.com/
 ```
+````
 
-- `emoji` … 見出し横の絵文字。サムネ・OGP（`scripts/generate-og.ts`）にも使う。
-- このブログは **Zenn ではない**。`:::message` はそのままでは効かないことがある。必要なら通常の引用・見出しで代用する。
+画像はリンク先の OGP を**ホットリンク**する（転載しない）。URL を足したら
+`deno task linkcards` でキャッシュを更新してからコミットする（`yasuna-tech-build` スキル）。
 
 ### 4. 保存先を選ぶ
 
