@@ -6,6 +6,7 @@
 
 | 用途 | パス |
 |------|------|
+| Claude の振る舞い調整（このファイルを読み込む） | `CLAUDE.md` |
 | 記事執筆（Claude Code スキル） | `.claude/skills/yasuna-tech-post/SKILL.md` |
 | ビルド/プレビュー（Claude Code スキル） | `.claude/skills/yasuna-tech-build/SKILL.md` |
 | 2026 実績ページの更新手順（スキル） | `.cursor/skills/jisseki-2026-update/SKILL.md` |
