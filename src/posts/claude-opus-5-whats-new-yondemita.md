@@ -180,5 +180,8 @@ Claude API・Amazon Bedrock・Google Cloud・Microsoft Foundry の4つ。
 新機能そのものより、「プロンプトから引き算しろ」という方向性が印象に残るリリースでした。
 モデルが賢くなるほど、こちらが書いた足場が邪魔になっていく。
 
+ちなみに、没にした2稿を Fable 5 がどう判断して削ったのかは
+[書き直しの判断ログ](/posts/fable5-opus5-rewrite-documentary/)に残しました。
+
 読んでくれてありがとうございました。Opus 5 にオーケストレーションさせる実験は
 また別の記事で書きます。
