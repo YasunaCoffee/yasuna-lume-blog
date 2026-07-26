@@ -92,7 +92,9 @@ Claude API（`claude-opus-5`）、AWS の Amazon Bedrock（`anthropic.claude-opu
 
 じつはこのページを読んだ日、自分は別件で **「Opus 5 で動いているセッションのときだけ、自作ルールをコンテキストに注入する」** 設定を `~/.claude/` に入れていました。
 
-https://github.com/YasunaCoffee/semantic-generation-guard
+参考にして試行錯誤したのはこの記事です。指示をどの層で届けるかで効き方が変わるという話で、なかでも `UserPromptSubmit` フックで毎発話届けるのがいちばん確実だった、という実測が載っています。
+
+https://zenn.dev/u1/articles/claude5-rules-collapse-and-fix
 
 Claude Code にはモデル別に設定を出し分ける公式機能がないので、`UserPromptSubmit` フックの中でモデルを判定して、Opus 5 系のときだけルールを標準出力に吐く、という力技です。判定は「環境変数 → トランスクリプトの最後の assistant メッセージが名乗るモデル ID → 起動コマンドの `--model` → settings の既定値」の順。
 
