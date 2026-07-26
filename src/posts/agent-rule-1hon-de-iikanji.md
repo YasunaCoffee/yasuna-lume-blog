@@ -120,8 +120,8 @@ esac
 
 ```console
 $ ls "${TMPDIR:-/tmp}/claude-semgen-guard/"
-a573095b-ea61-429f-8a8f-cb8ba69e92c0
-$ cat "${TMPDIR:-/tmp}/claude-semgen-guard/a573095b-..."
+<セッションIDのファイルが1つ>
+$ cat "${TMPDIR:-/tmp}/claude-semgen-guard/<セッションID>"
 claude-opus-5
 ```
 
